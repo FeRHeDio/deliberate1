@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		765AC6DA2A2007DE007F2FD4 /* Readme.md in Resources */ = {isa = PBXBuildFile; fileRef = 765AC6D92A2007DE007F2FD4 /* Readme.md */; };
 		76C8F5392A1FDF1600890B4B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76C8F5382A1FDF1600890B4B /* AppDelegate.swift */; };
 		76C8F53B2A1FDF1600890B4B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76C8F53A2A1FDF1600890B4B /* SceneDelegate.swift */; };
 		76C8F53D2A1FDF1600890B4B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76C8F53C2A1FDF1600890B4B /* ViewController.swift */; };
@@ -14,8 +15,6 @@
 		76C8F5422A1FDF1700890B4B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 76C8F5412A1FDF1700890B4B /* Assets.xcassets */; };
 		76C8F5452A1FDF1700890B4B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 76C8F5432A1FDF1700890B4B /* LaunchScreen.storyboard */; };
 		76C8F5502A1FDF1700890B4B /* Deliberate_1Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76C8F54F2A1FDF1700890B4B /* Deliberate_1Tests.swift */; };
-		76C8F55A2A1FDF1700890B4B /* Deliberate_1UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76C8F5592A1FDF1700890B4B /* Deliberate_1UITests.swift */; };
-		76C8F55C2A1FDF1700890B4B /* Deliberate_1UITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76C8F55B2A1FDF1700890B4B /* Deliberate_1UITestsLaunchTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -26,16 +25,10 @@
 			remoteGlobalIDString = 76C8F5342A1FDF1600890B4B;
 			remoteInfo = "Deliberate-1";
 		};
-		76C8F5562A1FDF1700890B4B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 76C8F52D2A1FDF1600890B4B /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 76C8F5342A1FDF1600890B4B;
-			remoteInfo = "Deliberate-1";
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		765AC6D92A2007DE007F2FD4 /* Readme.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Readme.md; sourceTree = "<group>"; };
 		76C8F5352A1FDF1600890B4B /* Deliberate-1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Deliberate-1.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		76C8F5382A1FDF1600890B4B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		76C8F53A2A1FDF1600890B4B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -46,9 +39,6 @@
 		76C8F5462A1FDF1700890B4B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		76C8F54B2A1FDF1700890B4B /* Deliberate-1Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Deliberate-1Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		76C8F54F2A1FDF1700890B4B /* Deliberate_1Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deliberate_1Tests.swift; sourceTree = "<group>"; };
-		76C8F5552A1FDF1700890B4B /* Deliberate-1UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Deliberate-1UITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		76C8F5592A1FDF1700890B4B /* Deliberate_1UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deliberate_1UITests.swift; sourceTree = "<group>"; };
-		76C8F55B2A1FDF1700890B4B /* Deliberate_1UITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deliberate_1UITestsLaunchTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,13 +56,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		76C8F5522A1FDF1700890B4B /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -81,7 +64,6 @@
 			children = (
 				76C8F5372A1FDF1600890B4B /* Deliberate-1 */,
 				76C8F54E2A1FDF1700890B4B /* Deliberate-1Tests */,
-				76C8F5582A1FDF1700890B4B /* Deliberate-1UITests */,
 				76C8F5362A1FDF1600890B4B /* Products */,
 			);
 			sourceTree = "<group>";
@@ -91,7 +73,6 @@
 			children = (
 				76C8F5352A1FDF1600890B4B /* Deliberate-1.app */,
 				76C8F54B2A1FDF1700890B4B /* Deliberate-1Tests.xctest */,
-				76C8F5552A1FDF1700890B4B /* Deliberate-1UITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -99,6 +80,7 @@
 		76C8F5372A1FDF1600890B4B /* Deliberate-1 */ = {
 			isa = PBXGroup;
 			children = (
+				765AC6D92A2007DE007F2FD4 /* Readme.md */,
 				76C8F5382A1FDF1600890B4B /* AppDelegate.swift */,
 				76C8F53A2A1FDF1600890B4B /* SceneDelegate.swift */,
 				76C8F53C2A1FDF1600890B4B /* ViewController.swift */,
@@ -116,15 +98,6 @@
 				76C8F54F2A1FDF1700890B4B /* Deliberate_1Tests.swift */,
 			);
 			path = "Deliberate-1Tests";
-			sourceTree = "<group>";
-		};
-		76C8F5582A1FDF1700890B4B /* Deliberate-1UITests */ = {
-			isa = PBXGroup;
-			children = (
-				76C8F5592A1FDF1700890B4B /* Deliberate_1UITests.swift */,
-				76C8F55B2A1FDF1700890B4B /* Deliberate_1UITestsLaunchTests.swift */,
-			);
-			path = "Deliberate-1UITests";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -165,24 +138,6 @@
 			productReference = 76C8F54B2A1FDF1700890B4B /* Deliberate-1Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		76C8F5542A1FDF1700890B4B /* Deliberate-1UITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 76C8F5652A1FDF1700890B4B /* Build configuration list for PBXNativeTarget "Deliberate-1UITests" */;
-			buildPhases = (
-				76C8F5512A1FDF1700890B4B /* Sources */,
-				76C8F5522A1FDF1700890B4B /* Frameworks */,
-				76C8F5532A1FDF1700890B4B /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				76C8F5572A1FDF1700890B4B /* PBXTargetDependency */,
-			);
-			name = "Deliberate-1UITests";
-			productName = "Deliberate-1UITests";
-			productReference = 76C8F5552A1FDF1700890B4B /* Deliberate-1UITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -197,10 +152,6 @@
 						CreatedOnToolsVersion = 14.2;
 					};
 					76C8F54A2A1FDF1700890B4B = {
-						CreatedOnToolsVersion = 14.2;
-						TestTargetID = 76C8F5342A1FDF1600890B4B;
-					};
-					76C8F5542A1FDF1700890B4B = {
 						CreatedOnToolsVersion = 14.2;
 						TestTargetID = 76C8F5342A1FDF1600890B4B;
 					};
@@ -221,7 +172,6 @@
 			targets = (
 				76C8F5342A1FDF1600890B4B /* Deliberate-1 */,
 				76C8F54A2A1FDF1700890B4B /* Deliberate-1Tests */,
-				76C8F5542A1FDF1700890B4B /* Deliberate-1UITests */,
 			);
 		};
 /* End PBXProject section */
@@ -233,18 +183,12 @@
 			files = (
 				76C8F5452A1FDF1700890B4B /* LaunchScreen.storyboard in Resources */,
 				76C8F5422A1FDF1700890B4B /* Assets.xcassets in Resources */,
+				765AC6DA2A2007DE007F2FD4 /* Readme.md in Resources */,
 				76C8F5402A1FDF1600890B4B /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		76C8F5492A1FDF1700890B4B /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		76C8F5532A1FDF1700890B4B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -272,15 +216,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		76C8F5512A1FDF1700890B4B /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				76C8F55A2A1FDF1700890B4B /* Deliberate_1UITests.swift in Sources */,
-				76C8F55C2A1FDF1700890B4B /* Deliberate_1UITestsLaunchTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -288,11 +223,6 @@
 			isa = PBXTargetDependency;
 			target = 76C8F5342A1FDF1600890B4B /* Deliberate-1 */;
 			targetProxy = 76C8F54C2A1FDF1700890B4B /* PBXContainerItemProxy */;
-		};
-		76C8F5572A1FDF1700890B4B /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 76C8F5342A1FDF1600890B4B /* Deliberate-1 */;
-			targetProxy = 76C8F5562A1FDF1700890B4B /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -526,42 +456,6 @@
 			};
 			name = Release;
 		};
-		76C8F5662A1FDF1700890B4B /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = F342975UV4;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "net.efepe.Deliberate-1UITests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = "Deliberate-1";
-			};
-			name = Debug;
-		};
-		76C8F5672A1FDF1700890B4B /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = F342975UV4;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "net.efepe.Deliberate-1UITests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = "Deliberate-1";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -588,15 +482,6 @@
 			buildConfigurations = (
 				76C8F5632A1FDF1700890B4B /* Debug */,
 				76C8F5642A1FDF1700890B4B /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		76C8F5652A1FDF1700890B4B /* Build configuration list for PBXNativeTarget "Deliberate-1UITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				76C8F5662A1FDF1700890B4B /* Debug */,
-				76C8F5672A1FDF1700890B4B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
