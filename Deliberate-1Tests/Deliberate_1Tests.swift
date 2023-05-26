@@ -26,7 +26,7 @@ class TopHeadlinesViewController: UITableViewController {
 
 class Deliberate_1Tests: XCTestCase {
     
-    func test_emptyTableView() {
+    func test_topHeadlines_showsEmptyTableView() {
         let sut = makeSUT(articles: [Article]())
         
         sut.loadViewIfNeeded()
@@ -34,7 +34,7 @@ class Deliberate_1Tests: XCTestCase {
         XCTAssertEqual(sut.tableView.numberOfRows(inSection: 0), 0)
     }
     
-    func test_oneArticle() {
+    func test_topHeadlines_showsOneArticle() {
         let sut = makeSUT(articles: [makeArticle()])
         
         sut.loadViewIfNeeded()
