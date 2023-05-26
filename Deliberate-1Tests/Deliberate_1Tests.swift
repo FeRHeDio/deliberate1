@@ -6,14 +6,13 @@
 //
 
 import XCTest
-@testable import Deliberate_1
 
 struct Article {
     let name: String
 }
 
 class TopHeadlinesViewController: UITableViewController {
-    var articles: [Article] = []
+    private var articles: [Article] = []
     
     convenience init(articles: [Article]) {
         self.init()
@@ -45,13 +44,13 @@ class Deliberate_1Tests: XCTestCase {
     
     // MARK: - Helpers
     
-    func makeSUT(articles: [Article]) -> TopHeadlinesViewController {
+    private func makeSUT(articles: [Article]) -> TopHeadlinesViewController {
         let sut = TopHeadlinesViewController(articles: articles)
         
         return sut
     }
     
-    func makeArticle() -> Article {
+    private func makeArticle() -> Article {
         Article(name: "some name")
     }
 }
