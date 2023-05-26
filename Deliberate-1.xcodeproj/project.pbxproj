@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		765AC6DA2A2007DE007F2FD4 /* Readme.md in Resources */ = {isa = PBXBuildFile; fileRef = 765AC6D92A2007DE007F2FD4 /* Readme.md */; };
+		765AC6DA2A2007DE007F2FD4 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 765AC6D92A2007DE007F2FD4 /* README.md */; };
 		76C8F5392A1FDF1600890B4B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76C8F5382A1FDF1600890B4B /* AppDelegate.swift */; };
 		76C8F53B2A1FDF1600890B4B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76C8F53A2A1FDF1600890B4B /* SceneDelegate.swift */; };
 		76C8F53D2A1FDF1600890B4B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76C8F53C2A1FDF1600890B4B /* ViewController.swift */; };
@@ -28,7 +28,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		765AC6D92A2007DE007F2FD4 /* Readme.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Readme.md; sourceTree = "<group>"; };
+		765AC6D92A2007DE007F2FD4 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		76C8F5352A1FDF1600890B4B /* Deliberate-1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Deliberate-1.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		76C8F5382A1FDF1600890B4B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		76C8F53A2A1FDF1600890B4B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -80,7 +80,7 @@
 		76C8F5372A1FDF1600890B4B /* Deliberate-1 */ = {
 			isa = PBXGroup;
 			children = (
-				765AC6D92A2007DE007F2FD4 /* Readme.md */,
+				765AC6D92A2007DE007F2FD4 /* README.md */,
 				76C8F5382A1FDF1600890B4B /* AppDelegate.swift */,
 				76C8F53A2A1FDF1600890B4B /* SceneDelegate.swift */,
 				76C8F53C2A1FDF1600890B4B /* ViewController.swift */,
@@ -183,7 +183,7 @@
 			files = (
 				76C8F5452A1FDF1700890B4B /* LaunchScreen.storyboard in Resources */,
 				76C8F5422A1FDF1700890B4B /* Assets.xcassets in Resources */,
-				765AC6DA2A2007DE007F2FD4 /* Readme.md in Resources */,
+				765AC6DA2A2007DE007F2FD4 /* README.md in Resources */,
 				76C8F5402A1FDF1600890B4B /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
