@@ -42,6 +42,18 @@ class Deliberate_1Tests: XCTestCase {
         XCTAssertEqual(sut.tableView.numberOfRows(inSection: 0), 1)
     }
     
+    func test_topHeadlines_showsThreeArticles() {
+        let sut = makeSUT(articles: [
+            makeArticle(),
+            makeArticle(),
+            makeArticle()
+        ])
+        
+        sut.loadViewIfNeeded()
+        
+        XCTAssertEqual(sut.tableView.numberOfRows(inSection: 0), 3)
+    }
+    
     // MARK: - Helpers
     
     private func makeSUT(articles: [Article]) -> TopHeadlinesViewController {
