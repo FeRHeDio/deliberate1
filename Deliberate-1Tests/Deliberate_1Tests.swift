@@ -36,7 +36,7 @@ class Deliberate_1Tests: XCTestCase {
     }
     
     func test_oneArticle() {
-        let sut = makeSUT(articles: [Article(name: "A name")])
+        let sut = makeSUT(articles: [makeArticle()])
         
         sut.loadViewIfNeeded()
         
@@ -49,5 +49,9 @@ class Deliberate_1Tests: XCTestCase {
         let sut = TopHeadlinesViewController(articles: articles)
         
         return sut
+    }
+    
+    func makeArticle() -> Article {
+        Article(name: "some name")
     }
 }
