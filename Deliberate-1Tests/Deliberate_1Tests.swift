@@ -8,9 +8,24 @@
 import XCTest
 @testable import Deliberate_1
 
-final class Deliberate_1Tests: XCTestCase {
+struct Articles {
+    
+}
 
-    func test() {
+class TopHeadlinesViewController: UITableViewController {
+    convenience init(topHeadlines: [Articles]) {
+        self.init()
+    }
+}
 
+class Deliberate_1Tests: XCTestCase {
+    
+    func test_emptyTableView() {
+        let topHeadlines = [Articles]()
+        let sut = TopHeadlinesViewController(topHeadlines: topHeadlines)
+        
+        sut.loadViewIfNeeded()
+        
+        XCTAssertEqual(sut.tableView.numberOfRows(inSection: 0), 0)
     }
 }
