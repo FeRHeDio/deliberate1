@@ -8,31 +8,45 @@
 import XCTest
 @testable import Deliberate_1
 
-struct Articles {
-    
+struct Article {
+    let name: String
 }
 
 class TopHeadlinesViewController: UITableViewController {
-    convenience init(topHeadlines: [Articles]) {
+    var articles: [Article] = []
+    
+    convenience init(articles: [Article]) {
         self.init()
+        self.articles = articles
+    }
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return articles.count
     }
 }
 
 class Deliberate_1Tests: XCTestCase {
     
     func test_emptyTableView() {
-        let topHeadlines = [Articles]()
-        let sut = makeSUT(topHeadlines: topHeadlines)
+        let sut = makeSUT(articles: [Article]())
         
         sut.loadViewIfNeeded()
         
         XCTAssertEqual(sut.tableView.numberOfRows(inSection: 0), 0)
     }
     
+    func test_oneArticle() {
+        let sut = makeSUT(articles: [Article(name: "A name")])
+        
+        sut.loadViewIfNeeded()
+        
+        XCTAssertEqual(sut.tableView.numberOfRows(inSection: 0), 1)
+    }
+    
     // MARK: - Helpers
     
-    func makeSUT(topHeadlines: [Articles]) -> TopHeadlinesViewController {
-        let sut = TopHeadlinesViewController(topHeadlines: topHeadlines)
+    func makeSUT(articles: [Article]) -> TopHeadlinesViewController {
+        let sut = TopHeadlinesViewController(articles: articles)
         
         return sut
     }
