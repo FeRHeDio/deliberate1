@@ -22,10 +22,18 @@ class Deliberate_1Tests: XCTestCase {
     
     func test_emptyTableView() {
         let topHeadlines = [Articles]()
-        let sut = TopHeadlinesViewController(topHeadlines: topHeadlines)
+        let sut = makeSUT(topHeadlines: topHeadlines)
         
         sut.loadViewIfNeeded()
         
         XCTAssertEqual(sut.tableView.numberOfRows(inSection: 0), 0)
+    }
+    
+    // MARK: - Helpers
+    
+    func makeSUT(topHeadlines: [Articles]) -> TopHeadlinesViewController {
+        let sut = TopHeadlinesViewController(topHeadlines: topHeadlines)
+        
+        return sut
     }
 }
