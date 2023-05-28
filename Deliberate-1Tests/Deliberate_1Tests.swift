@@ -38,15 +38,13 @@ final class TopHeadlinesViewController: UIViewController {
 
 class Deliberate_1Tests: XCTestCase {
     func test_init_doesNotLoadFeed() {
-        let loader = LoaderSpy()
-        _ = TopHeadlinesViewController(loader: loader)
+        let (_ , loader) = makeSUT()
         
         XCTAssertEqual(loader.loadCallCount, 0)
     }
     
     func test_viewDidLoad_loadsNews() {
-        let loader = LoaderSpy()
-        let sut = TopHeadlinesViewController(loader: loader)
+        let (sut, loader) = makeSUT()
         
         sut.loadViewIfNeeded()
         
@@ -54,6 +52,14 @@ class Deliberate_1Tests: XCTestCase {
     }
     
     // MARK: - Helpers
+    
+    private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut: TopHeadlinesViewController, loader: LoaderSpy) {
+        
+        let loader = LoaderSpy()
+        let sut = TopHeadlinesViewController(loader: loader)
+        
+        return (sut, loader)
+    }
     
     class LoaderSpy: NewsLoader {
         func load(completion: @escaping (NewsLoaderResult) -> Void) {
