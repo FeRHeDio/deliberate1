@@ -58,6 +58,9 @@ class Deliberate_1Tests: XCTestCase {
         let loader = LoaderSpy()
         let sut = TopHeadlinesViewController(loader: loader)
         
+        trackForMemoryLeaks(loader, file: file, line: line)
+        trackForMemoryLeaks(sut, file: file, line: line)
+        
         return (sut, loader)
     }
     
@@ -68,4 +71,12 @@ class Deliberate_1Tests: XCTestCase {
         
         private(set) var loadCallCount = 0
     }
+    
+    private func trackForMemoryLeaks(_ instance: AnyObject, file: StaticString = #file, line: UInt = #line) {
+        addTeardownBlock { [weak instance] in
+            XCTAssertNil(instance, "Instance should be deallocated, potential memory leak.", file: file, line: line)
+        }
+    }
 }
+
+
