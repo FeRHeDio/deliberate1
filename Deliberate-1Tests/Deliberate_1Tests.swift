@@ -7,62 +7,23 @@
 
 import XCTest
 
-struct Article {
-    let name: String
-}
-
-class TopHeadlinesViewController: UITableViewController {
-    private var articles: [Article] = []
-    
-    convenience init(articles: [Article]) {
-        self.init()
-        self.articles = articles
-    }
-    
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return articles.count
-    }
+final class TopHeadlinesViewController {
+     init(loader: Deliberate_1Tests.LoaderSpy) {
+         
+     }
 }
 
 class Deliberate_1Tests: XCTestCase {
-    
-    func test_topHeadlines_showsEmptyTableView() {
-        let sut = makeSUT(articles: [Article]())
+    func test_init_doesNotLoadFeed() {
+        let loader = LoaderSpy()
+        _ = TopHeadlinesViewController(loader: loader)
         
-        sut.loadViewIfNeeded()
-        
-        XCTAssertEqual(sut.tableView.numberOfRows(inSection: 0), 0)
-    }
-    
-    func test_topHeadlines_showsOneArticle() {
-        let sut = makeSUT(articles: [makeArticle()])
-        
-        sut.loadViewIfNeeded()
-        
-        XCTAssertEqual(sut.tableView.numberOfRows(inSection: 0), 1)
-    }
-    
-    func test_topHeadlines_showsThreeArticles() {
-        let sut = makeSUT(articles: [
-            makeArticle(),
-            makeArticle(),
-            makeArticle()
-        ])
-        
-        sut.loadViewIfNeeded()
-        
-        XCTAssertEqual(sut.tableView.numberOfRows(inSection: 0), 3)
+        XCTAssertEqual(loader.loadCallCount, 0)
     }
     
     // MARK: - Helpers
     
-    private func makeSUT(articles: [Article]) -> TopHeadlinesViewController {
-        let sut = TopHeadlinesViewController(articles: articles)
-        
-        return sut
-    }
-    
-    private func makeArticle() -> Article {
-        Article(name: "some name")
+    class LoaderSpy {
+        private(set) var loadCallCount = 0
     }
 }

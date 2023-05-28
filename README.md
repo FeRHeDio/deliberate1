@@ -14,7 +14,7 @@ Our view will be based on a TableView and it should display:
 
 - A list of articles.
 
-## Model details
+## Json Payload details
     - source
         - id
         - name
@@ -27,7 +27,7 @@ Our view will be based on a TableView and it should display:
 
 ## UX goals for the News UI experience
 
-[] Load Top Headlines automatically when view is presented
+[✅] Load Top Headlines automatically when view is presented
 [] Allow customer to manually reload feed (pull to refresh)
 [] Show a loading indicator while loading feed
 [] Render all loaded feed items (title, image, description, publishedAt, content & source name)
@@ -40,3 +40,10 @@ Our view will be based on a TableView and it should display:
  
  ## After that we can start to develop the Networking Layer
  
+## Don't forget
+
+[ ] Memory Leaks Tracking
+[ ] Line & File correct output
+[ ] Add a loader to the view
+
+
