@@ -8,16 +8,31 @@
 import XCTest
 import UIKit
 
-final class TopHeadlinesViewController: UIViewController {
-    private var loader: Deliberate_1Tests.LoaderSpy?
+public struct Article {
+    let title: String
+    let description: String
+    let URL: URL
+    let imageURL: URL
+    let publishedAt: Date
+    let content: String
+}
+
+public protocol NewsLoader {
+    typealias NewsLoaderResult = Result<[Article], Error>
     
-    convenience init(loader: Deliberate_1Tests.LoaderSpy) {
+    func load(completion: @escaping (NewsLoaderResult) -> Void)
+}
+
+final class TopHeadlinesViewController: UIViewController {
+    private var loader: NewsLoader?
+    
+    convenience init(loader: NewsLoader) {
         self.init()
         self.loader = loader
     }
     
     override func viewDidLoad() {
-        loader?.load()
+        loader?.load { _ in }
     }
 }
 
@@ -40,11 +55,11 @@ class Deliberate_1Tests: XCTestCase {
     
     // MARK: - Helpers
     
-    class LoaderSpy {
-        private(set) var loadCallCount = 0
-        
-        func load() {
+    class LoaderSpy: NewsLoader {
+        func load(completion: @escaping (NewsLoaderResult) -> Void) {
             loadCallCount += 1
         }
+        
+        private(set) var loadCallCount = 0
     }
 }
