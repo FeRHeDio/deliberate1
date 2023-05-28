@@ -42,7 +42,7 @@ Our view will be based on a TableView and it should display:
  
 ## Don't forget
 
-[ ] Memory Leaks Tracking
+[✅] Memory Leaks Tracking
 [ ] Line & File correct output
 [ ] Add a loader to the view
 

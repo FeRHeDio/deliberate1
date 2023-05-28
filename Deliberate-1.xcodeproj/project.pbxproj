@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		765AC6DC2A20F4DB007F2FD4 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 765AC6DB2A20F4DB007F2FD4 /* README.md */; };
+		765AC6DF2A23F9FD007F2FD4 /* XCTestCase+MemoryLeakTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765AC6DE2A23F9FD007F2FD4 /* XCTestCase+MemoryLeakTracking.swift */; };
 		76C8F5392A1FDF1600890B4B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76C8F5382A1FDF1600890B4B /* AppDelegate.swift */; };
 		76C8F53B2A1FDF1600890B4B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76C8F53A2A1FDF1600890B4B /* SceneDelegate.swift */; };
 		76C8F53D2A1FDF1600890B4B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76C8F53C2A1FDF1600890B4B /* ViewController.swift */; };
@@ -29,6 +30,7 @@
 
 /* Begin PBXFileReference section */
 		765AC6DB2A20F4DB007F2FD4 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		765AC6DE2A23F9FD007F2FD4 /* XCTestCase+MemoryLeakTracking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+MemoryLeakTracking.swift"; sourceTree = "<group>"; };
 		76C8F5352A1FDF1600890B4B /* Deliberate-1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Deliberate-1.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		76C8F5382A1FDF1600890B4B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		76C8F53A2A1FDF1600890B4B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -59,6 +61,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		765AC6DD2A23F99F007F2FD4 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				765AC6DE2A23F9FD007F2FD4 /* XCTestCase+MemoryLeakTracking.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 		76C8F52C2A1FDF1600890B4B = {
 			isa = PBXGroup;
 			children = (
@@ -95,6 +105,7 @@
 		76C8F54E2A1FDF1700890B4B /* Deliberate-1Tests */ = {
 			isa = PBXGroup;
 			children = (
+				765AC6DD2A23F99F007F2FD4 /* Helpers */,
 				76C8F54F2A1FDF1700890B4B /* Deliberate_1Tests.swift */,
 			);
 			path = "Deliberate-1Tests";
@@ -213,6 +224,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				76C8F5502A1FDF1700890B4B /* Deliberate_1Tests.swift in Sources */,
+				765AC6DF2A23F9FD007F2FD4 /* XCTestCase+MemoryLeakTracking.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
