@@ -60,15 +60,15 @@ class Deliberate_1Tests: XCTestCase {
         XCTAssertEqual(loader.loadCallCount, 1)
     }
     
-    func test_pullToRefresh_loadsTopHeadlines() {
+    func test_userInitiatedFeedReload_reloadsTopHeadlines() {
         let (sut, loader) = makeSUT()
         
         sut.loadViewIfNeeded()
         
-        sut.refreshControl?.simulatePullToRefresh()
+        sut.simulateUserInitiatedReload()
         XCTAssertEqual(loader.loadCallCount, 2)
         
-        sut.refreshControl?.simulatePullToRefresh()
+        sut.simulateUserInitiatedReload()
         XCTAssertEqual(loader.loadCallCount, 3)
     }
     
@@ -89,18 +89,18 @@ class Deliberate_1Tests: XCTestCase {
         XCTAssertEqual(sut.refreshControl?.isRefreshing, false)
     }
     
-    func test_pullToRefresh_showsLoadingIndicator() {
+    func test_userInitiatedFeedReload_showsLoadingIndicator() {
         let (sut, _) = makeSUT()
         
-        sut.refreshControl?.simulatePullToRefresh()
+        sut.simulateUserInitiatedReload()
         
         XCTAssertEqual(sut.refreshControl?.isRefreshing, true)
     }
     
-    func test_pullToRefresh_hidesLoadingIndicator() {
+    func test_userInitiatedFeedReload_hidesLoadingIndicator() {
         let (sut, loader) = makeSUT()
         
-        sut.refreshControl?.simulatePullToRefresh()
+        sut.simulateUserInitiatedReload()
         loader.completeFeedLoading()
         
         XCTAssertEqual(sut.refreshControl?.isRefreshing, false)
@@ -133,6 +133,12 @@ class Deliberate_1Tests: XCTestCase {
         func completeFeedLoading() {
             completions[0](.success([]))
         }
+    }
+}
+
+private extension TopHeadlinesViewController {
+    func simulateUserInitiatedReload() {
+        refreshControl?.simulatePullToRefresh()
     }
 }
 
