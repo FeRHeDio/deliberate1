@@ -39,7 +39,9 @@ final class TopHeadlinesViewController: UITableViewController {
     }
     
     @objc func load() {
-        loader?.load { _ in }
+        loader?.load { [weak self] _ in
+            self?.refreshControl?.endRefreshing()
+        }
     }
 }
 
@@ -70,12 +72,21 @@ class Deliberate_1Tests: XCTestCase {
         XCTAssertEqual(loader.loadCallCount, 3)
     }
     
-    func test_pullToRefresh_showsLoadingIndicator() {
+    func test_viewDidLoad_showsLoadingIndicator() {
         let (sut, _) = makeSUT()
         
         sut.loadViewIfNeeded()
         
         XCTAssertEqual(sut.refreshControl?.isRefreshing, true)
+    }
+    
+    func test_viewDidLoad_endRefreshingIndicator() {
+        let (sut, loader) = makeSUT()
+        
+        sut.loadViewIfNeeded()
+        loader.completeFeedLoading()
+        
+        XCTAssertEqual(sut.refreshControl?.isRefreshing, false)
     }
     
     // MARK: - Helpers
@@ -92,11 +103,19 @@ class Deliberate_1Tests: XCTestCase {
     }
     
     class LoaderSpy: NewsLoader {
-        func load(completion: @escaping (NewsLoaderResult) -> Void) {
-            loadCallCount += 1
+        private(set) var completions = [(NewsLoaderResult) -> Void]()
+        
+        var loadCallCount: Int {
+            completions.count
         }
         
-        private(set) var loadCallCount = 0
+        func load(completion: @escaping (NewsLoaderResult) -> Void) {
+            completions.append(completion)
+        }
+        
+        func completeFeedLoading() {
+            completions[0](.success([]))
+        }
     }
 }
 
