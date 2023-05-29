@@ -27,23 +27,23 @@ Our view will be based on a TableView and it should display:
 
 ## UX goals for the News UI experience
 
-[✅] Load Top Headlines automatically when view is presented
-[✅] Allow customer to manually reload feed (pull to refresh)
-[✅] Show a loading indicator while loading feed
-[] Render all loaded feed items (title, image, description, publishedAt, content & source name)
-[] Image loading experience
-    [] Load when image view is visible (on screen)
-    [] Cancel when image view is out of screen
-    [] Show a loading indicator while loading image (shimmer)
-    [] Option to retry on image download error  
-    [] Preload when image view is near visible
+- [✅] Load Top Headlines automatically when view is presented
+- [✅] Allow customer to manually reload feed (pull to refresh)
+- [✅] Show a loading indicator while loading feed
+- [] Render all loaded feed items (title, image, description, publishedAt, content & source name)
+- [] Image loading experience
+    - [] Load when image view is visible (on screen)
+    - [] Cancel when image view is out of screen
+    - [] Show a loading indicator while loading image (shimmer)
+    - [] Option to retry on image download error  
+    - [] Preload when image view is near visible
  
  ## After that we can start to develop the Networking Layer
  
 ## Don't forget
 
-[✅] Memory Leaks Tracking
-[ ] Line & File correct output
-[ ] Add a loader to the view
+- [✅] Memory Leaks Tracking
+- [ ] Line & File correct output
+- [ ] Add a loader to the view
 
 
