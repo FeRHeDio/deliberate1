@@ -28,7 +28,7 @@ Our view will be based on a TableView and it should display:
 ## UX goals for the News UI experience
 
 [✅] Load Top Headlines automatically when view is presented
-[] Allow customer to manually reload feed (pull to refresh)
+[✅] Allow customer to manually reload feed (pull to refresh)
 [] Show a loading indicator while loading feed
 [] Render all loaded feed items (title, image, description, publishedAt, content & source name)
 [] Image loading experience

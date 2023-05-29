@@ -23,7 +23,7 @@ public protocol NewsLoader {
     func load(completion: @escaping (NewsLoaderResult) -> Void)
 }
 
-final class TopHeadlinesViewController: UIViewController {
+final class TopHeadlinesViewController: UITableViewController {
     private var loader: NewsLoader?
     
     convenience init(loader: NewsLoader) {
@@ -32,6 +32,12 @@ final class TopHeadlinesViewController: UIViewController {
     }
     
     override func viewDidLoad() {
+        refreshControl = UIRefreshControl()
+        refreshControl?.addTarget(self, action: #selector(load), for: .valueChanged)
+        load()
+    }
+    
+    @objc func load() {
         loader?.load { _ in }
     }
 }
@@ -49,6 +55,18 @@ class Deliberate_1Tests: XCTestCase {
         sut.loadViewIfNeeded()
         
         XCTAssertEqual(loader.loadCallCount, 1)
+    }
+    
+    func test_pullToRefresh_loadsTopHeadlines() {
+        let (sut, loader) = makeSUT()
+        
+        sut.loadViewIfNeeded()
+        
+        sut.refreshControl?.simulatePullToRefresh()
+        XCTAssertEqual(loader.loadCallCount, 2)
+        
+        sut.refreshControl?.simulatePullToRefresh()
+        XCTAssertEqual(loader.loadCallCount, 3)
     }
     
     // MARK: - Helpers
@@ -73,4 +91,12 @@ class Deliberate_1Tests: XCTestCase {
     }
 }
 
-
+private extension UIRefreshControl {
+    func simulatePullToRefresh() {
+        allTargets.forEach { target in
+            actions(forTarget: target, forControlEvent: .valueChanged)?.forEach {
+                (target as NSObject).perform(Selector($0))
+            }
+        }
+    }
+}
