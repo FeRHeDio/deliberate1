@@ -46,30 +46,18 @@ final class TopHeadlinesViewController: UITableViewController {
 }
 
 class Deliberate_1Tests: XCTestCase {
-    func test_init_doesNotLoadFeed() {
-        let (_ , loader) = makeSUT()
-        
-        XCTAssertEqual(loader.loadCallCount, 0)
-    }
+    func test_loadFeedActions_requestFeedFromLoader() {
+        let (sut , loader) = makeSUT()
+        XCTAssertEqual(loader.loadCallCount, 0, "Expected no loading requests before view is loaded")
     
-    func test_viewDidLoad_loadsNews() {
-        let (sut, loader) = makeSUT()
-        
         sut.loadViewIfNeeded()
-        
-        XCTAssertEqual(loader.loadCallCount, 1)
-    }
-    
-    func test_userInitiatedFeedReload_reloadsTopHeadlines() {
-        let (sut, loader) = makeSUT()
-        
-        sut.loadViewIfNeeded()
+        XCTAssertEqual(loader.loadCallCount, 1, "Expected loading requests once view is loaded")
         
         sut.simulateUserInitiatedReload()
-        XCTAssertEqual(loader.loadCallCount, 2)
+        XCTAssertEqual(loader.loadCallCount, 2, "Expected loading requests when manually reload the view")
         
         sut.simulateUserInitiatedReload()
-        XCTAssertEqual(loader.loadCallCount, 3)
+        XCTAssertEqual(loader.loadCallCount, 3, "Expected loading requests when the user requested another loading")
     }
     
     func test_viewDidLoad_showsLoadingIndicator() {
