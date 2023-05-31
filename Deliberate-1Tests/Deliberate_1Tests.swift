@@ -11,10 +11,19 @@ import UIKit
 public struct Article {
     let title: String
     let description: String
-    let URL: URL
+    let URL: URL?
     let imageURL: URL
-    let publishedAt: Date
-    let content: String
+    let publishedAt: Date?
+    let content: String?
+    
+    init(title: String, description: String, URL: URL?, imageURL: URL, publishedAt: Date?, content: String?) {
+        self.title = title
+        self.description = description
+        self.URL = URL
+        self.imageURL = imageURL
+        self.publishedAt = publishedAt
+        self.content = content
+    }
 }
 
 public protocol NewsLoader {
@@ -24,6 +33,7 @@ public protocol NewsLoader {
 }
 
 final class TopHeadlinesViewController: UITableViewController {
+    private var articleModel = [Article]()
     private var loader: NewsLoader?
     
     convenience init(loader: NewsLoader) {
@@ -39,9 +49,22 @@ final class TopHeadlinesViewController: UITableViewController {
     
     @objc func load() {
         refreshControl?.beginRefreshing()
-        loader?.load { [weak self] _ in
+        loader?.load { [weak self] result in
+            
+            switch result {
+            case .success(let articles):
+                self?.articleModel = articles
+                
+            case .failure(let error):
+                print("error: \(error) ")
+            }
+            
             self?.refreshControl?.endRefreshing()
         }
+    }
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        articleModel.count
     }
 }
 
@@ -78,6 +101,18 @@ class Deliberate_1Tests: XCTestCase {
         XCTAssertEqual(sut.isShowingLoadingIndicator, false, "Expected no loading indicator when the manual loading finishes")
     }
     
+    func test_loadFeedCompletion_renderFeed() {
+        let item0 = makeItem(title: "A new title", description: "Some description of the news to know.")
+        
+        let item1 = makeItem(title: "Another title", description: "Some new description of the news to know.")
+        let (sut, loader) = makeSUT()
+        
+        sut.loadViewIfNeeded()
+        
+        loader.completeFeedLoading(with: [item0, item1], at: 0)
+        XCTAssertEqual(sut.numberOfRenderedNewsArticles(), 2)
+    }
+    
     // MARK: - Helpers
     
     private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut: TopHeadlinesViewController, loader: LoaderSpy) {
@@ -91,6 +126,11 @@ class Deliberate_1Tests: XCTestCase {
         return (sut, loader)
     }
     
+    private func makeItem(title: String, description: String, URL: URL? = nil, imageURL: URL = URL(string: "http://www.a-url.com")!, publishedAt: Date? = nil, content: String? = nil ) -> Article {
+            
+        return Article(title: title, description: description, URL: URL, imageURL: imageURL, publishedAt: publishedAt, content: content)
+    }
+    
     class LoaderSpy: NewsLoader {
         private(set) var completions = [(NewsLoaderResult) -> Void]()
         
@@ -102,8 +142,8 @@ class Deliberate_1Tests: XCTestCase {
             completions.append(completion)
         }
         
-        func completeFeedLoading(at index: Int) {
-            completions[index](.success([]))
+        func completeFeedLoading(with model: [Article] = [], at index: Int) {
+            completions[index](.success(model))
         }
     }
 }
@@ -116,6 +156,12 @@ private extension TopHeadlinesViewController {
     var isShowingLoadingIndicator: Bool {
         refreshControl?.isRefreshing == true
     }
+    
+    func numberOfRenderedNewsArticles() -> Int {
+        tableView.numberOfRows(inSection: newsArticles)
+    }
+    
+    private var newsArticles: Int { 0 }
 }
 
 private extension UIRefreshControl {

@@ -29,7 +29,7 @@ Our view will be based on a TableView and it should display:
 
 - [✅] Load Top Headlines automatically when view is presented
 - [✅] Allow customer to manually reload feed (pull to refresh)
-- [✅] Show a loading indicator while loading feed
+- [✅] Show a  loading indicator while loading feed
 - [] Render all loaded feed items (title, image, description, publishedAt, content & source name)
 - [] Image loading experience
     - [] Load when image view is visible (on screen)
@@ -45,5 +45,4 @@ Our view will be based on a TableView and it should display:
 - [✅] Memory Leaks Tracking
 - [✅] Line & File correct output
 - [✅ ] Add a loader to the view
-
 
