@@ -101,7 +101,7 @@ class Deliberate_1Tests: XCTestCase {
         XCTAssertEqual(sut.isShowingLoadingIndicator, false, "Expected no loading indicator when the manual loading finishes")
     }
     
-    func test_loadFeedCompletion_renderFeed() {
+    func test_loadFeedCompletion_renderNumberOfItemsOnFeed() {
         let item0 = makeItem(title: "A new title", description: "Some description of the news to know.")
         
         let item1 = makeItem(title: "Another title", description: "Some new description of the news to know.")
