@@ -8,6 +8,14 @@
 import XCTest
 import UIKit
 
+class TopHeadlinesCell: UITableViewCell {
+    let titleLabel = UILabel()
+    let descriptionLabel = UILabel()
+    let contentlabel = UILabel()
+    let contentContainer = UIView()
+    
+}
+
 public struct Article {
     let title: String
     let description: String
@@ -50,21 +58,25 @@ final class TopHeadlinesViewController: UITableViewController {
     @objc func load() {
         refreshControl?.beginRefreshing()
         loader?.load { [weak self] result in
-            
-            switch result {
-            case .success(let articles):
-                self?.articleModel = articles
-                
-            case .failure(let error):
-                print("error: \(error) ")
-            }
-            
+            self?.articleModel = (try? result.get()) ?? []
+            self?.tableView.reloadData()
             self?.refreshControl?.endRefreshing()
         }
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         articleModel.count
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cellModel = articleModel[indexPath.row]
+        let cell = TopHeadlinesCell()
+        cell.titleLabel.text = cellModel.title
+        cell.descriptionLabel.text = cellModel.description
+        cell.contentlabel.text = cellModel.content
+        cell.contentContainer.isHidden = (cellModel.content == nil)
+        
+        return cell
     }
 }
 
@@ -102,15 +114,29 @@ class Deliberate_1Tests: XCTestCase {
     }
     
     func test_loadFeedCompletion_renderNumberOfItemsOnFeed() {
-        let item0 = makeItem(title: "A new title", description: "Some description of the news to know.")
+        let item0 = makeItem(title: "A new title", description: "Some description of the news to know.", content: "a Long long content.. but not so long, a few more lines, nothing more that this long, at least I guess.")
+        let item1 = makeItem(title: "Another title", description: "Some new description of the news to know.", content: nil)
+        let item2 = makeItem(title: "Some exiting news", description: "The kind of sexy description")
+        let item3 = makeItem(title: "The Pope was killed", description: "Not really, just a heads up for you to pay attention", content: "Some stupidity to try to convey a message here.")
         
-        let item1 = makeItem(title: "Another title", description: "Some new description of the news to know.")
         let (sut, loader) = makeSUT()
         
         sut.loadViewIfNeeded()
         
-        loader.completeFeedLoading(with: [item0, item1], at: 0)
-        XCTAssertEqual(sut.numberOfRenderedNewsArticles(), 2)
+        XCTAssertEqual(sut.numberOfRenderedNewsArticles(), 0)
+        
+        loader.completeFeedLoading(with: [item0], at: 0)
+        XCTAssertEqual(sut.numberOfRenderedNewsArticles(), 1)
+        assertThat(sut, hasViewConfiguredFor: item0, at: 0)
+        
+        sut.simulateUserInitiatedReload()
+        loader.completeFeedLoading(with: [item0, item1, item2, item3], at: 1)
+        XCTAssertEqual(sut.numberOfRenderedNewsArticles(), 4)
+        
+        assertThat(sut, hasViewConfiguredFor: item0, at: 0)
+        assertThat(sut, hasViewConfiguredFor: item1, at: 1)
+        assertThat(sut, hasViewConfiguredFor: item2, at: 2)
+        assertThat(sut, hasViewConfiguredFor: item3, at: 3)
     }
     
     // MARK: - Helpers
@@ -124,6 +150,26 @@ class Deliberate_1Tests: XCTestCase {
         trackForMemoryLeaks(sut, file: file, line: line)
         
         return (sut, loader)
+    }
+    
+    private func assertThat(_ sut: TopHeadlinesViewController, hasViewConfiguredFor item: Article, at index: Int, file: StaticString = #file, line: UInt = #line) {
+        let view = sut.topHeadLinesView(at: index)
+        
+        guard let cell = view as? TopHeadlinesCell else {
+            return XCTFail("Expected \(TopHeadlinesCell.self) instance, got \(String(describing: view)) instead", file: file, line: line)
+        }
+        
+        let shouldContentBeVisible = (item.content != nil)
+
+        
+        XCTAssertEqual(cell.titleText, item.title, "Expected content to be \(String(describing: item.title)) for item at index (\(index))", file: file, line: line)
+        
+        XCTAssertEqual(cell.descriptionText, item.description, "Expected content to be \(String(describing: item.description)) for item at index (\(index))", file: file, line: line)
+        
+        XCTAssertEqual(cell.contentText, item.content, "Expected content to be \(String(describing: item.content)) for item at index (\(index))", file: file, line: line)
+        
+        XCTAssertEqual(cell.isShowingContent, shouldContentBeVisible, "Expected `isShowingContent` to be \(shouldContentBeVisible) for content view at index (\(index))", file: file, line: line)
+        
     }
     
     private func makeItem(title: String, description: String, URL: URL? = nil, imageURL: URL = URL(string: "http://www.a-url.com")!, publishedAt: Date? = nil, content: String? = nil ) -> Article {
@@ -148,6 +194,24 @@ class Deliberate_1Tests: XCTestCase {
     }
 }
 
+private extension TopHeadlinesCell {
+    var isShowingContent: Bool {
+        return !contentContainer.isHidden
+    }
+    
+    var titleText: String? {
+        return titleLabel.text
+    }
+    
+    var descriptionText: String? {
+        return descriptionLabel.text
+    }
+    
+    var contentText: String? {
+        return contentlabel.text
+    }
+}
+
 private extension TopHeadlinesViewController {
     func simulateUserInitiatedReload() {
         refreshControl?.simulatePullToRefresh()
@@ -155,6 +219,16 @@ private extension TopHeadlinesViewController {
     
     var isShowingLoadingIndicator: Bool {
         refreshControl?.isRefreshing == true
+    }
+    
+    func topHeadLinesView(at row: Int) -> UITableViewCell? {
+        let ds = tableView.dataSource
+        let index = IndexPath(row: row, section: topHeadLinesSection)
+        return ds?.tableView(tableView, cellForRowAt: index)
+    }
+    
+    private var topHeadLinesSection: Int {
+        return 0
     }
     
     func numberOfRenderedNewsArticles() -> Int {
