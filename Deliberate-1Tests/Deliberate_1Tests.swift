@@ -124,19 +124,14 @@ class Deliberate_1Tests: XCTestCase {
         sut.loadViewIfNeeded()
         
         XCTAssertEqual(sut.numberOfRenderedNewsArticles(), 0)
+        assertThat(sut, isRendering: [])
         
         loader.completeFeedLoading(with: [item0], at: 0)
-        XCTAssertEqual(sut.numberOfRenderedNewsArticles(), 1)
-        assertThat(sut, hasViewConfiguredFor: item0, at: 0)
+        assertThat(sut, isRendering: [item0])
         
         sut.simulateUserInitiatedReload()
         loader.completeFeedLoading(with: [item0, item1, item2, item3], at: 1)
-        XCTAssertEqual(sut.numberOfRenderedNewsArticles(), 4)
-        
-        assertThat(sut, hasViewConfiguredFor: item0, at: 0)
-        assertThat(sut, hasViewConfiguredFor: item1, at: 1)
-        assertThat(sut, hasViewConfiguredFor: item2, at: 2)
-        assertThat(sut, hasViewConfiguredFor: item3, at: 3)
+        assertThat(sut, isRendering: [item0, item1, item2, item3])
     }
     
     // MARK: - Helpers
@@ -150,6 +145,16 @@ class Deliberate_1Tests: XCTestCase {
         trackForMemoryLeaks(sut, file: file, line: line)
         
         return (sut, loader)
+    }
+    
+    private func assertThat(_ sut: TopHeadlinesViewController, isRendering newsFeed: [Article], file: StaticString = #file, line: UInt = #line) {
+        guard newsFeed.count == sut.numberOfRenderedNewsArticles() else {
+            return XCTFail("Expected \(newsFeed.count) articles, but got \(sut.numberOfRenderedNewsArticles())", file: file, line: line)
+        }
+        
+        newsFeed.enumerated().forEach { index, item in
+            assertThat(sut, hasViewConfiguredFor: item, at: index)
+        }
     }
     
     private func assertThat(_ sut: TopHeadlinesViewController, hasViewConfiguredFor item: Article, at index: Int, file: StaticString = #file, line: UInt = #line) {
