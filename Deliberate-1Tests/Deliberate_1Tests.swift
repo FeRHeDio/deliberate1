@@ -58,14 +58,10 @@ final class TopHeadlinesViewController: UITableViewController {
     @objc func load() {
         refreshControl?.beginRefreshing()
         loader?.load { [weak self] result in
-            switch result {
-            case .success(let headlines):
+            if let headlines = try? result.get() {
                 self?.articleModel = headlines
                 self?.tableView.reloadData()
-                
-            case .failure: break
             }
-            
             self?.refreshControl?.endRefreshing()
         }
     }
