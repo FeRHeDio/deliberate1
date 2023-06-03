@@ -58,9 +58,14 @@ final class TopHeadlinesViewController: UITableViewController {
     @objc func load() {
         refreshControl?.beginRefreshing()
         loader?.load { [weak self] result in
-            self?.articleModel = (try? result.get()) ?? []
-            self?.tableView.reloadData()
-            self?.refreshControl?.endRefreshing()
+            switch result {
+            case .success(let headlines):
+                self?.articleModel = headlines
+                self?.tableView.reloadData()
+                self?.refreshControl?.endRefreshing()
+                
+            case .failure: break
+            }
         }
     }
     
@@ -134,6 +139,19 @@ class Deliberate_1Tests: XCTestCase {
         assertThat(sut, isRendering: [item0, item1, item2, item3])
     }
     
+    func test_loadCompletion_notAlterTheCurrentFeedOnError() {
+        let item = makeItem(title: "some", description: "some")
+        let (sut, loader) = makeSUT()
+        
+        sut.loadViewIfNeeded()
+        loader.completeFeedLoading(with: [item], at: 0)
+        assertThat(sut, isRendering: [item])
+        
+        sut.simulateUserInitiatedReload()
+        loader.completeFeedLoadingWithError(at: 1)
+        assertThat(sut, isRendering: [item])
+    }
+    
     // MARK: - Helpers
     
     private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut: TopHeadlinesViewController, loader: LoaderSpy) {
@@ -196,7 +214,16 @@ class Deliberate_1Tests: XCTestCase {
         func completeFeedLoading(with model: [Article] = [], at index: Int) {
             completions[index](.success(model))
         }
+        
+        func completeFeedLoadingWithError(at index: Int) {
+            let error = anyNSError()
+            completions[index](.failure(error))
+        }
     }
+}
+
+public func anyNSError() -> NSError {
+    return NSError(domain: "error", code: 0)
 }
 
 private extension TopHeadlinesCell {
