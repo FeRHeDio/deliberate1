@@ -104,7 +104,7 @@ class Deliberate_1Tests: XCTestCase {
         XCTAssertEqual(sut.isShowingLoadingIndicator, true, "Expected loading indicator when the view present itself")
 
         loader.completeFeedLoading(at: 0)
-        XCTAssertEqual(sut.isShowingLoadingIndicator, false, "Expected no loading indicator when the load completes")
+        XCTAssertEqual(sut.isShowingLoadingIndicator, false, "Expected no loading indicator when the load completes succesfully")
 
         sut.simulateUserInitiatedReload()
         XCTAssertEqual(sut.isShowingLoadingIndicator, true, "Expected loading indicator when the user reloads the feed manually")
@@ -112,7 +112,7 @@ class Deliberate_1Tests: XCTestCase {
         sut.simulateUserInitiatedReload()
         loader.completeFeedLoadingWithError(at: 1)
         
-        XCTAssertEqual(sut.isShowingLoadingIndicator, false, "Expected no loading indicator when the manual loading finishes")
+        XCTAssertEqual(sut.isShowingLoadingIndicator, false, "Expected no loading indicator when the manual loading finishes with an error")
     }
     
     func test_loadFeedCompletion_renderNumberOfItemsOnFeed() {
