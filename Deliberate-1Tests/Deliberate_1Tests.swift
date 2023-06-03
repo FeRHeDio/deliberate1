@@ -62,10 +62,11 @@ final class TopHeadlinesViewController: UITableViewController {
             case .success(let headlines):
                 self?.articleModel = headlines
                 self?.tableView.reloadData()
-                self?.refreshControl?.endRefreshing()
                 
             case .failure: break
             }
+            
+            self?.refreshControl?.endRefreshing()
         }
     }
     
@@ -113,7 +114,7 @@ class Deliberate_1Tests: XCTestCase {
         XCTAssertEqual(sut.isShowingLoadingIndicator, true, "Expected loading indicator when the user reloads the feed manually")
         
         sut.simulateUserInitiatedReload()
-        loader.completeFeedLoading(at: 1)
+        loader.completeFeedLoadingWithError(at: 1)
         
         XCTAssertEqual(sut.isShowingLoadingIndicator, false, "Expected no loading indicator when the manual loading finishes")
     }
