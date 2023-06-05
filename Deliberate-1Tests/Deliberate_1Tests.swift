@@ -46,12 +46,12 @@ public protocol FeedImageLoader {
 
 final class TopHeadlinesViewController: UITableViewController {
     private var articleModel = [Article]()
-    private var loader: NewsLoader?
+    private var newsFeedLoader: NewsLoader?
     private var imageLoader: FeedImageLoader?
     
     convenience init(loader: NewsLoader, imageLoader: FeedImageLoader) {
         self.init()
-        self.loader = loader
+        self.newsFeedLoader = loader
         self.imageLoader = imageLoader
     }
     
@@ -63,7 +63,7 @@ final class TopHeadlinesViewController: UITableViewController {
     
     @objc func load() {
         refreshControl?.beginRefreshing()
-        loader?.load { [weak self] result in
+        newsFeedLoader?.load { [weak self] result in
             if let headlines = try? result.get() {
                 self?.articleModel = headlines
                 self?.tableView.reloadData()
@@ -93,16 +93,16 @@ final class TopHeadlinesViewController: UITableViewController {
 class Deliberate_1Tests: XCTestCase {
     func test_loadFeedActions_requestFeedFromLoader() {
         let (sut , loader) = makeSUT()
-        XCTAssertEqual(loader.loadCallCount, 0, "Expected no loading requests before view is loaded")
+        XCTAssertEqual(loader.loadNewsFeedCallCount, 0, "Expected no loading requests before view is loaded")
     
         sut.loadViewIfNeeded()
-        XCTAssertEqual(loader.loadCallCount, 1, "Expected loading requests once view is loaded")
+        XCTAssertEqual(loader.loadNewsFeedCallCount, 1, "Expected loading requests once view is loaded")
         
         sut.simulateUserInitiatedReload()
-        XCTAssertEqual(loader.loadCallCount, 2, "Expected loading requests when manually reload the view")
+        XCTAssertEqual(loader.loadNewsFeedCallCount, 2, "Expected loading requests when manually reload the view")
         
         sut.simulateUserInitiatedReload()
-        XCTAssertEqual(loader.loadCallCount, 3, "Expected loading requests when the user requested another loading")
+        XCTAssertEqual(loader.loadNewsFeedCallCount, 3, "Expected loading requests when the user requested another loading")
     }
     
     func test_loadingIndicator_isVisibleWhileLoadingTopHeadlines() {
@@ -224,10 +224,12 @@ class Deliberate_1Tests: XCTestCase {
     }
     
     class LoaderSpy: NewsLoader, FeedImageLoader {
-        private(set) var completions = [(NewsLoaderResult) -> Void]()
-        private(set) var loadedImagesURLs = [URL]()
         
-        var loadCallCount: Int {
+        //MARK: NewsLoader
+        
+        private(set) var completions = [(NewsLoaderResult) -> Void]()
+        
+        var loadNewsFeedCallCount: Int {
             completions.count
         }
         
@@ -243,6 +245,10 @@ class Deliberate_1Tests: XCTestCase {
             let error = anyNSError()
             completions[index](.failure(error))
         }
+        
+        //MARK: FeedImageLoader
+        
+        private(set) var loadedImagesURLs = [URL]()
         
         func loadImage(from url: URL) {
             loadedImagesURLs.append(url)
