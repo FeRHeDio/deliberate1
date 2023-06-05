@@ -40,13 +40,19 @@ public protocol NewsLoader {
     func load(completion: @escaping (NewsLoaderResult) -> Void)
 }
 
+public protocol FeedImageLoader {
+    func loadImage(from url: URL)
+}
+
 final class TopHeadlinesViewController: UITableViewController {
     private var articleModel = [Article]()
     private var loader: NewsLoader?
+    private var imageLoader: FeedImageLoader?
     
-    convenience init(loader: NewsLoader) {
+    convenience init(loader: NewsLoader, imageLoader: FeedImageLoader) {
         self.init()
         self.loader = loader
+        self.imageLoader = imageLoader
     }
     
     override func viewDidLoad() {
@@ -77,6 +83,8 @@ final class TopHeadlinesViewController: UITableViewController {
         cell.descriptionLabel.text = cellModel.description
         cell.contentlabel.text = cellModel.content
         cell.contentContainer.isHidden = (cellModel.content == nil)
+        
+        imageLoader?.loadImage(from: cellModel.imageURL)
         
         return cell
     }
@@ -160,14 +168,19 @@ class Deliberate_1Tests: XCTestCase {
         loader.completeFeedLoading(with: [itemWithImage0, itemWithImage1], at: 0)
         
         XCTAssertEqual(loader.loadedImagesURLs, [], "Expected no image URL requests until view becomes visible")
+        
+        sut.simulateImageViewVisible(at: 0)
+        XCTAssertEqual(loader.loadedImagesURLs, [itemWithImage0.imageURL])
+        
+        sut.simulateImageViewVisible(at: 1)
+        XCTAssertEqual(loader.loadedImagesURLs, [itemWithImage0.imageURL, itemWithImage1.imageURL])
     }
     
     // MARK: - Helpers
     
     private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut: TopHeadlinesViewController, loader: LoaderSpy) {
-        
         let loader = LoaderSpy()
-        let sut = TopHeadlinesViewController(loader: loader)
+        let sut = TopHeadlinesViewController(loader: loader, imageLoader: loader)
         
         trackForMemoryLeaks(loader, file: file, line: line)
         trackForMemoryLeaks(sut, file: file, line: line)
@@ -210,11 +223,9 @@ class Deliberate_1Tests: XCTestCase {
         return Article(title: title, description: description, URL: URL, imageURL: imageURL, publishedAt: publishedAt, content: content)
     }
     
-    class LoaderSpy: NewsLoader {
+    class LoaderSpy: NewsLoader, FeedImageLoader {
         private(set) var completions = [(NewsLoaderResult) -> Void]()
-        var loadedImagesURLs: [URL] {
-            return []
-        }
+        private(set) var loadedImagesURLs = [URL]()
         
         var loadCallCount: Int {
             completions.count
@@ -231,6 +242,10 @@ class Deliberate_1Tests: XCTestCase {
         func completeFeedLoadingWithError(at index: Int) {
             let error = anyNSError()
             completions[index](.failure(error))
+        }
+        
+        func loadImage(from url: URL) {
+            loadedImagesURLs.append(url)
         }
     }
 }
