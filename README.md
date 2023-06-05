@@ -3,10 +3,6 @@
 ## The whole idea is to train everyday.
 ### While training I will be wide open to different things where to improve as well places to develop a clear training reproducible step.
 
-- [✅] Memory Leaks Tracking
-- [✅] Line & File correct output
-- [✅ ] Add a loader to the view
-
 ## What we're going to build?
 
 We are going to build a simple App to consume a list of Headlines and show it on screen in a TableView.
