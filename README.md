@@ -35,7 +35,7 @@ Our view will be based on a TableView and it should display:
 - [] Render all loaded feed items (title, description, publishedAt, content & source name)
 
 - [] Image loading experience
-    - [] Load when image view is visible (on screen)
+    - [✅] Load when image view is visible (on screen)
     - [] Cancel when image view is out of screen
     - [] Show a loading indicator while loading image (shimmer)
     - [] Option to retry on image download error  
