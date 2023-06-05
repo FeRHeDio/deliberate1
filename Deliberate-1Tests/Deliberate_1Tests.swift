@@ -149,6 +149,19 @@ class Deliberate_1Tests: XCTestCase {
         assertThat(sut, isRendering: [item])
     }
     
+    func test_feedImageView_loadImageURLWhenVisible() {
+        let itemWithImage0 = makeItem(title: "some title a", description: "a description", imageURL: URL(string: "http://www.a-url.com")!)
+        let itemWithImage1 = makeItem(title: "some title b", description: "b description", imageURL: URL(string: "http://www.b-url.com")!)
+        
+        let (sut, loader) = makeSUT()
+        
+        sut.loadViewIfNeeded()
+        
+        loader.completeFeedLoading(with: [itemWithImage0, itemWithImage1], at: 0)
+        
+        XCTAssertEqual(loader.loadedImagesURLs, [], "Expected no image URL requests until view becomes visible")
+    }
+    
     // MARK: - Helpers
     
     private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut: TopHeadlinesViewController, loader: LoaderSpy) {
@@ -199,6 +212,9 @@ class Deliberate_1Tests: XCTestCase {
     
     class LoaderSpy: NewsLoader {
         private(set) var completions = [(NewsLoaderResult) -> Void]()
+        var loadedImagesURLs: [URL] {
+            return []
+        }
         
         var loadCallCount: Int {
             completions.count
@@ -242,6 +258,10 @@ private extension TopHeadlinesCell {
 }
 
 private extension TopHeadlinesViewController {
+    func simulateImageViewVisible(at index: Int) {
+        _ = topHeadLinesView(at: index)
+    }
+    
     func simulateUserInitiatedReload() {
         refreshControl?.simulatePullToRefresh()
     }
