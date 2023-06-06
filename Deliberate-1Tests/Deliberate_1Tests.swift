@@ -42,6 +42,7 @@ public protocol NewsLoader {
 
 public protocol FeedImageLoader {
     func loadImage(from url: URL)
+    func cancelLoading(from url: URL)
 }
 
 final class TopHeadlinesViewController: UITableViewController {
@@ -87,6 +88,11 @@ final class TopHeadlinesViewController: UITableViewController {
         imageLoader?.loadImage(from: cellModel.imageURL)
         
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let cellModel = articleModel[indexPath.row]
+        imageLoader?.cancelLoading(from: cellModel.imageURL)
     }
 }
 
@@ -176,6 +182,24 @@ class Deliberate_1Tests: XCTestCase {
         XCTAssertEqual(loader.loadedImagesURLs, [itemWithImage0.imageURL, itemWithImage1.imageURL])
     }
     
+    func test_feedImageView_cancelImageLoadingWhenViewIsNotVisible() {
+        let itemWithImage0 = makeItem(title: "some title a", description: "a description", imageURL: URL(string: "http://www.a-url.com")!)
+        let itemWithImage1 = makeItem(title: "some title b", description: "b description", imageURL: URL(string: "http://www.b-url.com")!)
+        
+        let (sut, loader) = makeSUT()
+        
+        sut.loadViewIfNeeded()
+        
+        loader.completeFeedLoading(with: [itemWithImage0, itemWithImage1], at: 0)
+        XCTAssertEqual(loader.canceledImageURLs, [])
+        
+        sut.simulateImageNotVisible(at: 0)
+        XCTAssertEqual(loader.canceledImageURLs, [itemWithImage0.imageURL])
+        
+        sut.simulateImageNotVisible(at: 1)
+        XCTAssertEqual(loader.canceledImageURLs, [itemWithImage0.imageURL, itemWithImage1.imageURL])
+    }
+    
     // MARK: - Helpers
     
     private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut: TopHeadlinesViewController, loader: LoaderSpy) {
@@ -249,9 +273,14 @@ class Deliberate_1Tests: XCTestCase {
         //MARK: FeedImageLoader
         
         private(set) var loadedImagesURLs = [URL]()
+        private(set) var canceledImageURLs = [URL]()
         
         func loadImage(from url: URL) {
             loadedImagesURLs.append(url)
+        }
+        
+        func cancelLoading(from url: URL) {
+            canceledImageURLs.append(url)
         }
     }
 }
@@ -279,8 +308,18 @@ private extension TopHeadlinesCell {
 }
 
 private extension TopHeadlinesViewController {
-    func simulateImageViewVisible(at index: Int) {
-        _ = topHeadLinesView(at: index)
+    func simulateImageNotVisible(at row: Int) {
+        let view = simulateImageViewVisible(at: row)
+        
+        let delegate = tableView.delegate
+        let index = IndexPath(row: row, section: topHeadLinesSection)
+        
+        delegate?.tableView?(tableView, didEndDisplaying: view, forRowAt: index)
+    }
+    
+    @discardableResult
+    func simulateImageViewVisible(at index: Int) -> TopHeadlinesCell {
+        topHeadLinesView(at: index) as! TopHeadlinesCell
     }
     
     func simulateUserInitiatedReload() {
