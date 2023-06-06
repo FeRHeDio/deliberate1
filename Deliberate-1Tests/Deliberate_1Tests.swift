@@ -40,15 +40,19 @@ public protocol NewsLoader {
     func load(completion: @escaping (NewsLoaderResult) -> Void)
 }
 
+public protocol FeedImageLoaderTask {
+    func cancel()
+}
+
 public protocol FeedImageLoader {
-    func loadImage(from url: URL)
-    func cancelLoading(from url: URL)
+    func loadImage(from url: URL) -> FeedImageLoaderTask
 }
 
 final class TopHeadlinesViewController: UITableViewController {
     private var articleModel = [Article]()
     private var newsFeedLoader: NewsLoader?
     private var imageLoader: FeedImageLoader?
+    private var tasks = [IndexPath: FeedImageLoaderTask]()
     
     convenience init(loader: NewsLoader, imageLoader: FeedImageLoader) {
         self.init()
@@ -85,14 +89,14 @@ final class TopHeadlinesViewController: UITableViewController {
         cell.contentlabel.text = cellModel.content
         cell.contentContainer.isHidden = (cellModel.content == nil)
         
-        imageLoader?.loadImage(from: cellModel.imageURL)
+        tasks[indexPath] = imageLoader?.loadImage(from: cellModel.imageURL)
         
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        let cellModel = articleModel[indexPath.row]
-        imageLoader?.cancelLoading(from: cellModel.imageURL)
+        tasks[indexPath]?.cancel()
+        tasks[indexPath] = nil
     }
 }
 
@@ -272,15 +276,22 @@ class Deliberate_1Tests: XCTestCase {
         
         //MARK: FeedImageLoader
         
+        private struct TaskSpy: FeedImageLoaderTask {
+            var cancelCallback: () -> Void
+            
+            func cancel() {
+                cancelCallback()
+            }
+        }
+        
         private(set) var loadedImagesURLs = [URL]()
         private(set) var canceledImageURLs = [URL]()
         
-        func loadImage(from url: URL) {
+        func loadImage(from url: URL) -> FeedImageLoaderTask {
             loadedImagesURLs.append(url)
-        }
-        
-        func cancelLoading(from url: URL) {
-            canceledImageURLs.append(url)
+            return TaskSpy { [weak self] in
+                self?.canceledImageURLs.append(url)
+            }
         }
     }
 }
