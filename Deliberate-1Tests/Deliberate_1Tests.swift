@@ -13,7 +13,7 @@ class TopHeadlinesCell: UITableViewCell {
     let descriptionLabel = UILabel()
     let contentlabel = UILabel()
     let contentContainer = UIView()
-    
+    let imageContainer = UIView()
 }
 
 public struct Article {
@@ -45,7 +45,9 @@ public protocol FeedImageLoaderTask {
 }
 
 public protocol FeedImageLoader {
-    func loadImage(from url: URL) -> FeedImageLoaderTask
+    typealias Result = Swift.Result<Data, Error>
+    
+    func loadImage(from url: URL, completion: @escaping (Result) -> Void) -> FeedImageLoaderTask
 }
 
 final class TopHeadlinesViewController: UITableViewController {
@@ -88,8 +90,11 @@ final class TopHeadlinesViewController: UITableViewController {
         cell.descriptionLabel.text = cellModel.description
         cell.contentlabel.text = cellModel.content
         cell.contentContainer.isHidden = (cellModel.content == nil)
+        cell.imageContainer.startShimmering()
         
-        tasks[indexPath] = imageLoader?.loadImage(from: cellModel.imageURL)
+        tasks[indexPath] = imageLoader?.loadImage(from: cellModel.imageURL) { [weak cell] result in
+            cell?.imageContainer.stopShimmering()
+        }
         
         return cell
     }
@@ -146,7 +151,7 @@ class Deliberate_1Tests: XCTestCase {
         XCTAssertEqual(sut.numberOfRenderedNewsArticles(), 0)
         assertThat(sut, isRendering: [])
         
-        loader.completeFeedLoading(with: [item0], at: 0)
+        loader.completeFeedLoading(with: [item0])
         assertThat(sut, isRendering: [item0])
         
         sut.simulateUserInitiatedReload()
@@ -175,7 +180,7 @@ class Deliberate_1Tests: XCTestCase {
         
         sut.loadViewIfNeeded()
         
-        loader.completeFeedLoading(with: [itemWithImage0, itemWithImage1], at: 0)
+        loader.completeFeedLoading(with: [itemWithImage0, itemWithImage1])
         
         XCTAssertEqual(loader.loadedImagesURLs, [], "Expected no image URL requests until view becomes visible")
         
@@ -202,6 +207,30 @@ class Deliberate_1Tests: XCTestCase {
         
         sut.simulateImageNotVisible(at: 1)
         XCTAssertEqual(loader.canceledImageURLs, [itemWithImage0.imageURL, itemWithImage1.imageURL])
+    }
+    
+    func test_loadingIndicator_isVisibleWhenLoadingImage() {
+        let itemWithImage0 = makeItem(title: "some title a", description: "a description", imageURL: URL(string: "http://www.a-url.com")!)
+        let itemWithImage1 = makeItem(title: "some title b", description: "b description", imageURL: URL(string: "http://www.b-url.com")!)
+
+        let (sut, loader) = makeSUT()
+
+        sut.loadViewIfNeeded()
+        loader.completeFeedLoading(with: [itemWithImage0, itemWithImage1])
+
+        let view0 = sut.simulateImageViewVisible(at: 0)
+        let view1 = sut.simulateImageViewVisible(at: 1)
+
+        XCTAssertEqual(view0?.isShowingImageLoadingIndicator, true)
+        XCTAssertEqual(view1?.isShowingImageLoadingIndicator, true)
+
+        loader.completeImageLoading(at: 0)
+        XCTAssertEqual(view0?.isShowingImageLoadingIndicator, false)
+        XCTAssertEqual(view1?.isShowingImageLoadingIndicator, true)
+
+        loader.completeImageLoadingWithError(at: 1)
+        XCTAssertEqual(view0?.isShowingImageLoadingIndicator, false)
+        XCTAssertEqual(view1?.isShowingImageLoadingIndicator, false)
     }
     
     // MARK: - Helpers
@@ -265,7 +294,7 @@ class Deliberate_1Tests: XCTestCase {
             completions.append(completion)
         }
         
-        func completeFeedLoading(with model: [Article] = [], at index: Int) {
+        func completeFeedLoading(with model: [Article] = [], at index: Int = 0) {
             completions[index](.success(model))
         }
         
@@ -284,14 +313,30 @@ class Deliberate_1Tests: XCTestCase {
             }
         }
         
-        private(set) var loadedImagesURLs = [URL]()
+        var imageRequests = [(url: URL, completion: (FeedImageLoader.Result) -> Void)]()
+        
+        var loadedImagesURLs: [URL] {
+            imageRequests.map { $0.url }
+        }
+        
         private(set) var canceledImageURLs = [URL]()
         
-        func loadImage(from url: URL) -> FeedImageLoaderTask {
-            loadedImagesURLs.append(url)
+        func loadImage(from url: URL, completion: @escaping (FeedImageLoader.Result) -> Void) -> FeedImageLoaderTask {
+            
+            imageRequests.append((url, completion))
+            
             return TaskSpy { [weak self] in
                 self?.canceledImageURLs.append(url)
             }
+        }
+       
+        func completeImageLoading(with imageData: Data = Data(), at index: Int) {
+            imageRequests[index].completion(.success(imageData))
+        }
+
+        func completeImageLoadingWithError(at index: Int) {
+            let error = anyNSError()
+            imageRequests[index].completion(.failure(error))
         }
     }
 }
@@ -316,6 +361,10 @@ private extension TopHeadlinesCell {
     var contentText: String? {
         return contentlabel.text
     }
+    
+    var isShowingImageLoadingIndicator: Bool {
+        return imageContainer.isShimmering
+    }
 }
 
 private extension TopHeadlinesViewController {
@@ -325,12 +374,12 @@ private extension TopHeadlinesViewController {
         let delegate = tableView.delegate
         let index = IndexPath(row: row, section: topHeadLinesSection)
         
-        delegate?.tableView?(tableView, didEndDisplaying: view, forRowAt: index)
+        delegate?.tableView?(tableView, didEndDisplaying: view!, forRowAt: index)
     }
     
     @discardableResult
-    func simulateImageViewVisible(at index: Int) -> TopHeadlinesCell {
-        topHeadLinesView(at: index) as! TopHeadlinesCell
+    func simulateImageViewVisible(at index: Int) -> TopHeadlinesCell? {
+        topHeadLinesView(at: index) as? TopHeadlinesCell
     }
     
     func simulateUserInitiatedReload() {
@@ -365,5 +414,53 @@ private extension UIRefreshControl {
                 (target as NSObject).perform(Selector($0))
             }
         }
+    }
+}
+
+extension UIView {
+    public var isShimmering: Bool {
+        set {
+            if newValue {
+                startShimmering()
+            } else {
+                stopShimmering()
+            }
+        }
+        
+        get {
+            return layer.mask?.animation(forKey: shimmeryAnimationKey) != nil
+        }
+    }
+    
+    private var shimmeryAnimationKey: String {
+        "shimmer"
+    }
+    
+    func startShimmering() {
+        let white = UIColor.white.cgColor
+        let alpha = UIColor.white.withAlphaComponent(0.7).cgColor
+        let width = bounds.width
+        let height = bounds.height
+        
+        let gradient = CAGradientLayer()
+        gradient.colors = [alpha, white, alpha]
+        gradient.startPoint = CGPoint(x: 0.0, y: 0.4)
+        gradient.endPoint = CGPoint(x: 1.0, y: 0.6)
+        
+        gradient.locations = [0.4, 0.5, 0.6]
+        
+        gradient.frame = CGRect(x: -width, y: 0, width: width*3, height: height)
+        layer.mask = gradient
+        
+        let animation = CABasicAnimation(keyPath: #keyPath(CAGradientLayer.locations))
+        animation.fromValue = [0.0, 0.1, 0.2]
+        animation.toValue = [0.8, 0.9, 1.0]
+        animation.duration = 1
+        animation.repeatCount = .infinity
+        gradient.add(animation, forKey: shimmeryAnimationKey)
+    }
+    
+    func stopShimmering() {
+        layer.mask = nil
     }
 }
