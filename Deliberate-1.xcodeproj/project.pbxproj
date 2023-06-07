@@ -13,6 +13,7 @@
 		7624CFD92A31024F00EC6607 /* FeedImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7624CFD82A31024F00EC6607 /* FeedImageLoader.swift */; };
 		7624CFDB2A31035000EC6607 /* UIView+Shimmering.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7624CFDA2A31035000EC6607 /* UIView+Shimmering.swift */; };
 		7624CFDD2A3103AA00EC6607 /* CommonHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7624CFDC2A3103AA00EC6607 /* CommonHelpers.swift */; };
+		7624CFE12A3105A300EC6607 /* TopHeadlinesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7624CFE02A3105A300EC6607 /* TopHeadlinesCell.swift */; };
 		765AC6DC2A20F4DB007F2FD4 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 765AC6DB2A20F4DB007F2FD4 /* README.md */; };
 		765AC6DF2A23F9FD007F2FD4 /* XCTestCase+MemoryLeakTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765AC6DE2A23F9FD007F2FD4 /* XCTestCase+MemoryLeakTracking.swift */; };
 		76C8F5392A1FDF1600890B4B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76C8F5382A1FDF1600890B4B /* AppDelegate.swift */; };
@@ -41,6 +42,7 @@
 		7624CFD82A31024F00EC6607 /* FeedImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedImageLoader.swift; sourceTree = "<group>"; };
 		7624CFDA2A31035000EC6607 /* UIView+Shimmering.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Shimmering.swift"; sourceTree = "<group>"; };
 		7624CFDC2A3103AA00EC6607 /* CommonHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonHelpers.swift; sourceTree = "<group>"; };
+		7624CFE02A3105A300EC6607 /* TopHeadlinesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopHeadlinesCell.swift; sourceTree = "<group>"; };
 		765AC6DB2A20F4DB007F2FD4 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		765AC6DE2A23F9FD007F2FD4 /* XCTestCase+MemoryLeakTracking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+MemoryLeakTracking.swift"; sourceTree = "<group>"; };
 		76C8F5352A1FDF1600890B4B /* Deliberate-1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Deliberate-1.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -81,6 +83,16 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
+		7624CFDF2A31058A00EC6607 /* TopHeadlines */ = {
+			isa = PBXGroup;
+			children = (
+				7624CFD42A3101EA00EC6607 /* Article.swift */,
+				7624CFD22A31011B00EC6607 /* TopHeadlinesViewController.swift */,
+				7624CFE02A3105A300EC6607 /* TopHeadlinesCell.swift */,
+			);
+			path = TopHeadlines;
+			sourceTree = "<group>";
+		};
 		765AC6DD2A23F99F007F2FD4 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
@@ -112,7 +124,8 @@
 		76C8F5372A1FDF1600890B4B /* Deliberate-1 */ = {
 			isa = PBXGroup;
 			children = (
-				7624CFD22A31011B00EC6607 /* TopHeadlinesViewController.swift */,
+				7624CFDF2A31058A00EC6607 /* TopHeadlines */,
+				7624CFDE2A3104EA00EC6607 /* Helpers */,
 				76C8F5382A1FDF1600890B4B /* AppDelegate.swift */,
 				76C8F53A2A1FDF1600890B4B /* SceneDelegate.swift */,
 				76C8F53C2A1FDF1600890B4B /* ViewController.swift */,
@@ -120,10 +133,8 @@
 				76C8F5412A1FDF1700890B4B /* Assets.xcassets */,
 				76C8F5432A1FDF1700890B4B /* LaunchScreen.storyboard */,
 				76C8F5462A1FDF1700890B4B /* Info.plist */,
-				7624CFD42A3101EA00EC6607 /* Article.swift */,
 				7624CFD62A3101FC00EC6607 /* NewsLoader.swift */,
 				7624CFD82A31024F00EC6607 /* FeedImageLoader.swift */,
-				7624CFDE2A3104EA00EC6607 /* Helpers */,
 			);
 			path = "Deliberate-1";
 			sourceTree = "<group>";
@@ -240,6 +251,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7624CFD32A31011B00EC6607 /* TopHeadlinesViewController.swift in Sources */,
+				7624CFE12A3105A300EC6607 /* TopHeadlinesCell.swift in Sources */,
 				7624CFDB2A31035000EC6607 /* UIView+Shimmering.swift in Sources */,
 				76C8F53D2A1FDF1600890B4B /* ViewController.swift in Sources */,
 				7624CFD92A31024F00EC6607 /* FeedImageLoader.swift in Sources */,

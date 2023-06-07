@@ -7,14 +7,6 @@
 
 import UIKit
 
-class TopHeadlinesCell: UITableViewCell {
-    let titleLabel = UILabel()
-    let descriptionLabel = UILabel()
-    let contentlabel = UILabel()
-    let contentContainer = UIView()
-    let imageContainer = UIView()
-}
-
 final public class TopHeadlinesViewController: UITableViewController {
     private var articleModel = [Article]()
     private var newsFeedLoader: NewsLoader?
