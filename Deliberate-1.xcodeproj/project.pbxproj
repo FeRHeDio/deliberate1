@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7624CFD32A31011B00EC6607 /* TopHeadlinesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7624CFD22A31011B00EC6607 /* TopHeadlinesViewController.swift */; };
+		7624CFD52A3101EA00EC6607 /* Article.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7624CFD42A3101EA00EC6607 /* Article.swift */; };
+		7624CFD72A3101FC00EC6607 /* NewsLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7624CFD62A3101FC00EC6607 /* NewsLoader.swift */; };
+		7624CFD92A31024F00EC6607 /* FeedImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7624CFD82A31024F00EC6607 /* FeedImageLoader.swift */; };
+		7624CFDB2A31035000EC6607 /* UIView+Shimmering.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7624CFDA2A31035000EC6607 /* UIView+Shimmering.swift */; };
+		7624CFDD2A3103AA00EC6607 /* CommonHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7624CFDC2A3103AA00EC6607 /* CommonHelpers.swift */; };
 		765AC6DC2A20F4DB007F2FD4 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 765AC6DB2A20F4DB007F2FD4 /* README.md */; };
 		765AC6DF2A23F9FD007F2FD4 /* XCTestCase+MemoryLeakTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765AC6DE2A23F9FD007F2FD4 /* XCTestCase+MemoryLeakTracking.swift */; };
 		76C8F5392A1FDF1600890B4B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76C8F5382A1FDF1600890B4B /* AppDelegate.swift */; };
@@ -29,6 +35,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7624CFD22A31011B00EC6607 /* TopHeadlinesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopHeadlinesViewController.swift; sourceTree = "<group>"; };
+		7624CFD42A3101EA00EC6607 /* Article.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Article.swift; sourceTree = "<group>"; };
+		7624CFD62A3101FC00EC6607 /* NewsLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsLoader.swift; sourceTree = "<group>"; };
+		7624CFD82A31024F00EC6607 /* FeedImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedImageLoader.swift; sourceTree = "<group>"; };
+		7624CFDA2A31035000EC6607 /* UIView+Shimmering.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Shimmering.swift"; sourceTree = "<group>"; };
+		7624CFDC2A3103AA00EC6607 /* CommonHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonHelpers.swift; sourceTree = "<group>"; };
 		765AC6DB2A20F4DB007F2FD4 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		765AC6DE2A23F9FD007F2FD4 /* XCTestCase+MemoryLeakTracking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+MemoryLeakTracking.swift"; sourceTree = "<group>"; };
 		76C8F5352A1FDF1600890B4B /* Deliberate-1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Deliberate-1.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -61,10 +73,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7624CFDE2A3104EA00EC6607 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				7624CFDA2A31035000EC6607 /* UIView+Shimmering.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 		765AC6DD2A23F99F007F2FD4 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
 				765AC6DE2A23F9FD007F2FD4 /* XCTestCase+MemoryLeakTracking.swift */,
+				7624CFDC2A3103AA00EC6607 /* CommonHelpers.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -72,9 +93,9 @@
 		76C8F52C2A1FDF1600890B4B = {
 			isa = PBXGroup;
 			children = (
+				765AC6DB2A20F4DB007F2FD4 /* README.md */,
 				76C8F5372A1FDF1600890B4B /* Deliberate-1 */,
 				76C8F54E2A1FDF1700890B4B /* Deliberate-1Tests */,
-				765AC6DB2A20F4DB007F2FD4 /* README.md */,
 				76C8F5362A1FDF1600890B4B /* Products */,
 			);
 			sourceTree = "<group>";
@@ -91,6 +112,7 @@
 		76C8F5372A1FDF1600890B4B /* Deliberate-1 */ = {
 			isa = PBXGroup;
 			children = (
+				7624CFD22A31011B00EC6607 /* TopHeadlinesViewController.swift */,
 				76C8F5382A1FDF1600890B4B /* AppDelegate.swift */,
 				76C8F53A2A1FDF1600890B4B /* SceneDelegate.swift */,
 				76C8F53C2A1FDF1600890B4B /* ViewController.swift */,
@@ -98,6 +120,10 @@
 				76C8F5412A1FDF1700890B4B /* Assets.xcassets */,
 				76C8F5432A1FDF1700890B4B /* LaunchScreen.storyboard */,
 				76C8F5462A1FDF1700890B4B /* Info.plist */,
+				7624CFD42A3101EA00EC6607 /* Article.swift */,
+				7624CFD62A3101FC00EC6607 /* NewsLoader.swift */,
+				7624CFD82A31024F00EC6607 /* FeedImageLoader.swift */,
+				7624CFDE2A3104EA00EC6607 /* Helpers */,
 			);
 			path = "Deliberate-1";
 			sourceTree = "<group>";
@@ -105,8 +131,8 @@
 		76C8F54E2A1FDF1700890B4B /* Deliberate-1Tests */ = {
 			isa = PBXGroup;
 			children = (
-				765AC6DD2A23F99F007F2FD4 /* Helpers */,
 				76C8F54F2A1FDF1700890B4B /* Deliberate_1Tests.swift */,
+				765AC6DD2A23F99F007F2FD4 /* Helpers */,
 			);
 			path = "Deliberate-1Tests";
 			sourceTree = "<group>";
@@ -213,9 +239,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7624CFD32A31011B00EC6607 /* TopHeadlinesViewController.swift in Sources */,
+				7624CFDB2A31035000EC6607 /* UIView+Shimmering.swift in Sources */,
 				76C8F53D2A1FDF1600890B4B /* ViewController.swift in Sources */,
+				7624CFD92A31024F00EC6607 /* FeedImageLoader.swift in Sources */,
 				76C8F5392A1FDF1600890B4B /* AppDelegate.swift in Sources */,
+				7624CFD72A3101FC00EC6607 /* NewsLoader.swift in Sources */,
 				76C8F53B2A1FDF1600890B4B /* SceneDelegate.swift in Sources */,
+				7624CFD52A3101EA00EC6607 /* Article.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -223,6 +254,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7624CFDD2A3103AA00EC6607 /* CommonHelpers.swift in Sources */,
 				76C8F5502A1FDF1700890B4B /* Deliberate_1Tests.swift in Sources */,
 				765AC6DF2A23F9FD007F2FD4 /* XCTestCase+MemoryLeakTracking.swift in Sources */,
 			);

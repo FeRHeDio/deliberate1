@@ -6,104 +6,8 @@
 //
 
 import XCTest
-import UIKit
+@testable import Deliberate_1
 
-class TopHeadlinesCell: UITableViewCell {
-    let titleLabel = UILabel()
-    let descriptionLabel = UILabel()
-    let contentlabel = UILabel()
-    let contentContainer = UIView()
-    let imageContainer = UIView()
-}
-
-public struct Article {
-    let title: String
-    let description: String
-    let URL: URL?
-    let imageURL: URL
-    let publishedAt: Date?
-    let content: String?
-    
-    init(title: String, description: String, URL: URL?, imageURL: URL, publishedAt: Date?, content: String?) {
-        self.title = title
-        self.description = description
-        self.URL = URL
-        self.imageURL = imageURL
-        self.publishedAt = publishedAt
-        self.content = content
-    }
-}
-
-public protocol NewsLoader {
-    typealias NewsLoaderResult = Result<[Article], Error>
-    
-    func load(completion: @escaping (NewsLoaderResult) -> Void)
-}
-
-public protocol FeedImageLoaderTask {
-    func cancel()
-}
-
-public protocol FeedImageLoader {
-    typealias Result = Swift.Result<Data, Error>
-    
-    func loadImage(from url: URL, completion: @escaping (Result) -> Void) -> FeedImageLoaderTask
-}
-
-final class TopHeadlinesViewController: UITableViewController {
-    private var articleModel = [Article]()
-    private var newsFeedLoader: NewsLoader?
-    private var imageLoader: FeedImageLoader?
-    private var tasks = [IndexPath: FeedImageLoaderTask]()
-    
-    convenience init(loader: NewsLoader, imageLoader: FeedImageLoader) {
-        self.init()
-        self.newsFeedLoader = loader
-        self.imageLoader = imageLoader
-    }
-    
-    override func viewDidLoad() {
-        refreshControl = UIRefreshControl()
-        refreshControl?.addTarget(self, action: #selector(load), for: .valueChanged)
-        load()
-    }
-    
-    @objc func load() {
-        refreshControl?.beginRefreshing()
-        newsFeedLoader?.load { [weak self] result in
-            if let headlines = try? result.get() {
-                self?.articleModel = headlines
-                self?.tableView.reloadData()
-            }
-            self?.refreshControl?.endRefreshing()
-        }
-    }
-    
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        articleModel.count
-    }
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cellModel = articleModel[indexPath.row]
-        let cell = TopHeadlinesCell()
-        cell.titleLabel.text = cellModel.title
-        cell.descriptionLabel.text = cellModel.description
-        cell.contentlabel.text = cellModel.content
-        cell.contentContainer.isHidden = (cellModel.content == nil)
-        cell.imageContainer.startShimmering()
-        
-        tasks[indexPath] = imageLoader?.loadImage(from: cellModel.imageURL) { [weak cell] result in
-            cell?.imageContainer.stopShimmering()
-        }
-        
-        return cell
-    }
-    
-    override func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        tasks[indexPath]?.cancel()
-        tasks[indexPath] = nil
-    }
-}
 
 class Deliberate_1Tests: XCTestCase {
     func test_loadFeedActions_requestFeedFromLoader() {
@@ -341,10 +245,6 @@ class Deliberate_1Tests: XCTestCase {
     }
 }
 
-public func anyNSError() -> NSError {
-    return NSError(domain: "error", code: 0)
-}
-
 private extension TopHeadlinesCell {
     var isShowingContent: Bool {
         return !contentContainer.isHidden
@@ -417,50 +317,3 @@ private extension UIRefreshControl {
     }
 }
 
-extension UIView {
-    public var isShimmering: Bool {
-        set {
-            if newValue {
-                startShimmering()
-            } else {
-                stopShimmering()
-            }
-        }
-        
-        get {
-            return layer.mask?.animation(forKey: shimmeryAnimationKey) != nil
-        }
-    }
-    
-    private var shimmeryAnimationKey: String {
-        "shimmer"
-    }
-    
-    func startShimmering() {
-        let white = UIColor.white.cgColor
-        let alpha = UIColor.white.withAlphaComponent(0.7).cgColor
-        let width = bounds.width
-        let height = bounds.height
-        
-        let gradient = CAGradientLayer()
-        gradient.colors = [alpha, white, alpha]
-        gradient.startPoint = CGPoint(x: 0.0, y: 0.4)
-        gradient.endPoint = CGPoint(x: 1.0, y: 0.6)
-        
-        gradient.locations = [0.4, 0.5, 0.6]
-        
-        gradient.frame = CGRect(x: -width, y: 0, width: width*3, height: height)
-        layer.mask = gradient
-        
-        let animation = CABasicAnimation(keyPath: #keyPath(CAGradientLayer.locations))
-        animation.fromValue = [0.0, 0.1, 0.2]
-        animation.toValue = [0.8, 0.9, 1.0]
-        animation.duration = 1
-        animation.repeatCount = .infinity
-        gradient.add(animation, forKey: shimmeryAnimationKey)
-    }
-    
-    func stopShimmering() {
-        layer.mask = nil
-    }
-}
