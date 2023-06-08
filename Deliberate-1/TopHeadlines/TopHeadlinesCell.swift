@@ -13,5 +13,6 @@ class TopHeadlinesCell: UITableViewCell {
     let contentlabel = UILabel()
     let contentContainer = UIView()
     let imageContainer = UIView()
+    let feedImageView = UIImageView()
 }
 
