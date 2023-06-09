@@ -14,5 +14,6 @@ class TopHeadlinesCell: UITableViewCell {
     let contentContainer = UIView()
     let imageContainer = UIView()
     let feedImageView = UIImageView()
+    let retryButton = UIButton()
 }
 

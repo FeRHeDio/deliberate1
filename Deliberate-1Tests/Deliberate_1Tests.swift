@@ -165,6 +165,32 @@ class Deliberate_1Tests: XCTestCase {
         XCTAssertEqual(view1?.renderedImage, imageData1)
     }
     
+    func test_feedImageView_showsRetryImageLoadingIndicatorOnLoadError() {
+        let itemWithImage0 = makeItem(title: "some title a", description: "a description", imageURL: URL(string: "http://www.a-url.com")!)
+        let itemWithImage1 = makeItem(title: "some title b", description: "b description", imageURL: URL(string: "http://www.b-url.com")!)
+
+        let (sut, loader) = makeSUT()
+
+        sut.loadViewIfNeeded()
+        loader.completeFeedLoading(with: [itemWithImage0, itemWithImage1])
+        
+        let view0 = sut.simulateImageViewVisible(at: 0)
+        let view1 = sut.simulateImageViewVisible(at: 1)
+        
+        XCTAssertEqual(view0?.isShowingRetryAction, false)
+        XCTAssertEqual(view1?.isShowingRetryAction, false)
+        
+        let image0 = UIImage.make(withColor: .green).pngData()!
+        
+        loader.completeImageLoading(with: image0, at: 0)
+        XCTAssertEqual(view0?.isShowingRetryAction, false)
+        XCTAssertEqual(view1?.isShowingRetryAction, false)
+        
+        loader.completeImageLoadingWithError(at: 1)
+        XCTAssertEqual(view0?.isShowingRetryAction, false)
+        XCTAssertEqual(view1?.isShowingRetryAction, true)
+    }
+    
     // MARK: - Helpers
     
     private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut: TopHeadlinesViewController, loader: LoaderSpy) {
@@ -296,6 +322,10 @@ private extension TopHeadlinesCell {
     
     var renderedImage: Data? {
         return feedImageView.image?.pngData()
+    }
+    
+    var isShowingRetryAction: Bool? {
+        return !retryButton.isHidden
     }
 }
 
