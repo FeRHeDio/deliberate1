@@ -51,13 +51,20 @@ final public class TopHeadlinesViewController: UITableViewController {
         cell.feedImageRetryButton.isHidden = true
         cell.imageContainer.startShimmering()
         
-        tasks[indexPath] = imageLoader?.loadImage(from: cellModel.imageURL) { [weak cell] result in
-            let data = try? result.get()
-            let image = data.map(UIImage.init) ?? nil
-            cell?.feedImageView.image = image
-            cell?.feedImageRetryButton.isHidden = (image != nil)
-            cell?.imageContainer.stopShimmering()
+        let loadImage = { [weak self, weak cell] in
+            guard let self else { return }
+            
+            self.tasks[indexPath] = self.imageLoader?.loadImage(from: cellModel.imageURL) { [weak cell] result in
+                let data = try? result.get()
+                let image = data.map(UIImage.init) ?? nil
+                cell?.feedImageView.image = image
+                cell?.feedImageRetryButton.isHidden = (image != nil)
+                cell?.imageContainer.stopShimmering()
+            }
         }
+        
+        cell.onRetry = loadImage
+        loadImage()
         
         return cell
     }

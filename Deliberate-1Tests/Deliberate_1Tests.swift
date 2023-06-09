@@ -208,6 +208,26 @@ class Deliberate_1Tests: XCTestCase {
         XCTAssertEqual(view?.isShowingRetryAction, true)
     }
     
+    func test_feedImageRetryAction_loadImagesOnRetry() {
+        let itemWithImage0 = makeItem(title: "some title a", description: "a description", imageURL: URL(string: "http://www.a-url.com")!)
+        let itemWithImage1 = makeItem(title: "some title b", description: "b description", imageURL: URL(string: "http://www.b-url.com")!)
+
+        let (sut, loader) = makeSUT()
+
+        sut.loadViewIfNeeded()
+        loader.completeFeedLoading(with: [itemWithImage0, itemWithImage1])
+        
+        let view0 = sut.simulateImageViewVisible(at: 0)
+        let view1 = sut.simulateImageViewVisible(at: 1)
+        XCTAssertEqual(loader.loadedImagesURLs, [itemWithImage0.imageURL, itemWithImage1.imageURL])
+        
+        view0?.simulateRetryAction()
+        XCTAssertEqual(loader.loadedImagesURLs, [itemWithImage0.imageURL, itemWithImage1.imageURL, itemWithImage0.imageURL])
+        
+        view1?.simulateRetryAction()
+        XCTAssertEqual(loader.loadedImagesURLs, [itemWithImage0.imageURL, itemWithImage1.imageURL, itemWithImage0.imageURL, itemWithImage1.imageURL])
+    }
+    
     
     // MARK: - Helpers
     
@@ -318,6 +338,10 @@ class Deliberate_1Tests: XCTestCase {
 }
 
 private extension TopHeadlinesCell {
+    func simulateRetryAction() {
+        feedImageRetryButton.simulateTap()
+    }
+    
     var isShowingContent: Bool {
         return !contentContainer.isHidden
     }
@@ -385,6 +409,16 @@ private extension TopHeadlinesViewController {
     }
     
     private var newsArticles: Int { 0 }
+}
+
+private extension UIButton {
+    func simulateTap() {
+        allTargets.forEach { target in
+            actions(forTarget: target, forControlEvent: .touchUpInside)?.forEach {
+                (target as NSObject).perform(Selector($0))
+            }
+        }
+    }
 }
 
 private extension UIRefreshControl {
