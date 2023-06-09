@@ -191,6 +191,24 @@ class Deliberate_1Tests: XCTestCase {
         XCTAssertEqual(view1?.isShowingRetryAction, true)
     }
     
+    func test_feedImageViewRetryButton_isVisibleOnInvalidaImageData() {
+        let itemWithImage0 = makeItem(title: "some title a", description: "a description", imageURL: URL(string: "http://www.a-url.com")!)
+        
+        let (sut, loader) = makeSUT()
+        
+        sut.loadViewIfNeeded()
+        loader.completeFeedLoading(with: [itemWithImage0])
+        
+        let view = sut.simulateImageViewVisible(at: 0)
+        XCTAssertEqual(view?.isShowingRetryAction, false)
+        
+        let invalidImageData = Data("invalid image data".utf8)
+        loader.completeImageLoading(with: invalidImageData, at: 0)
+        
+        XCTAssertEqual(view?.isShowingRetryAction, true)
+    }
+    
+    
     // MARK: - Helpers
     
     private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut: TopHeadlinesViewController, loader: LoaderSpy) {
