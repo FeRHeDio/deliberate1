@@ -325,7 +325,7 @@ private extension TopHeadlinesCell {
     }
     
     var isShowingRetryAction: Bool? {
-        return !retryButton.isHidden
+        return !feedImageRetryButton.isHidden
     }
 }
 
