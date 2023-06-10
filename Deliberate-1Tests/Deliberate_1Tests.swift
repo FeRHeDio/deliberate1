@@ -11,7 +11,7 @@ import XCTest
 
 class Deliberate_1Tests: XCTestCase {
     func test_loadFeedActions_requestFeedFromLoader() {
-        let (sut , loader) = makeSUT()
+        let (sut, loader) = makeSUT()
         XCTAssertEqual(loader.loadNewsFeedCallCount, 0, "Expected no loading requests before view is loaded")
     
         sut.loadViewIfNeeded()
@@ -49,7 +49,6 @@ class Deliberate_1Tests: XCTestCase {
         let item3 = makeItem(title: "The Pope was killed", description: "Not really, just a heads up for you to pay attention", content: "Some stupidity to try to convey a message here.")
         
         let (sut, loader) = makeSUT()
-        
         sut.loadViewIfNeeded()
         
         XCTAssertEqual(sut.numberOfRenderedNewsArticles(), 0)
@@ -83,9 +82,7 @@ class Deliberate_1Tests: XCTestCase {
         let (sut, loader) = makeSUT()
         
         sut.loadViewIfNeeded()
-        
         loader.completeFeedLoading(with: [itemWithImage0, itemWithImage1])
-        
         XCTAssertEqual(loader.loadedImagesURLs, [], "Expected no image URL requests until view becomes visible")
         
         sut.simulateImageViewVisible(at: 0)
@@ -102,7 +99,6 @@ class Deliberate_1Tests: XCTestCase {
         let (sut, loader) = makeSUT()
         
         sut.loadViewIfNeeded()
-        
         loader.completeFeedLoading(with: [itemWithImage0, itemWithImage1], at: 0)
         XCTAssertEqual(loader.canceledImageURLs, [])
         
@@ -374,11 +370,16 @@ private extension TopHeadlinesCell {
 private extension TopHeadlinesViewController {
     func simulateImageNotVisible(at row: Int) {
         let view = simulateImageViewVisible(at: row)
-        
         let delegate = tableView.delegate
         let index = IndexPath(row: row, section: topHeadLinesSection)
         
         delegate?.tableView?(tableView, didEndDisplaying: view!, forRowAt: index)
+    }
+    
+    func simulateFeedImageViewNearVisible(at row: Int) {
+        let ds = tableView.prefetchDataSource
+        let index = IndexPath(row: row, section: topHeadLinesSection)
+        ds?.tableView(tableView, prefetchRowsAt: [index])
     }
     
     @discardableResult
