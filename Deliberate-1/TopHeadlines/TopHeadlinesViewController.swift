@@ -10,13 +10,13 @@ import UIKit
 final public class TopHeadlinesViewController: UITableViewController, UITableViewDataSourcePrefetching {
     private var articleModel = [Article]()
     private var newsFeedLoader: NewsLoader?
-    private var imageLoader: FeedImageLoader?
+    private var feedImageLoader: FeedImageLoader?
     private var tasks = [IndexPath: FeedImageLoaderTask]()
     
-    public convenience init(loader: NewsLoader, imageLoader: FeedImageLoader) {
+    public convenience init(newsFeedLoader: NewsLoader, feedImageLoader: FeedImageLoader) {
         self.init()
-        self.newsFeedLoader = loader
-        self.imageLoader = imageLoader
+        self.newsFeedLoader = newsFeedLoader
+        self.feedImageLoader = feedImageLoader
     }
     
     public override func viewDidLoad() {
@@ -55,7 +55,7 @@ final public class TopHeadlinesViewController: UITableViewController, UITableVie
         let loadImage = { [weak self, weak cell] in
             guard let self else { return }
             
-            self.tasks[indexPath] = self.imageLoader?.loadImage(from: cellModel.imageURL) { [weak cell] result in
+            self.tasks[indexPath] = self.feedImageLoader?.loadImage(from: cellModel.imageURL) { [weak cell] result in
                 let data = try? result.get()
                 let image = data.map(UIImage.init) ?? nil
                 cell?.feedImageView.image = image
@@ -77,7 +77,7 @@ final public class TopHeadlinesViewController: UITableViewController, UITableVie
     public func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
         indexPaths.forEach { indexPath in
             let cellModel = articleModel[indexPath.row]
-            tasks[indexPath] = imageLoader?.loadImage(from: cellModel.imageURL) { _ in }
+            tasks[indexPath] = feedImageLoader?.loadImage(from: cellModel.imageURL) { _ in }
         }
     }
     

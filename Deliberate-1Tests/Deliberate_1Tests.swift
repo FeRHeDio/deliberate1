@@ -264,7 +264,7 @@ class Deliberate_1Tests: XCTestCase {
     
     private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut: TopHeadlinesViewController, loader: LoaderSpy) {
         let loader = LoaderSpy()
-        let sut = TopHeadlinesViewController(loader: loader, imageLoader: loader)
+        let sut = TopHeadlinesViewController(newsFeedLoader: loader, feedImageLoader: loader)
         
         trackForMemoryLeaks(loader, file: file, line: line)
         trackForMemoryLeaks(sut, file: file, line: line)

@@ -1,6 +1,5 @@
 # Deliberate Practice Initial Session
 
-## The whole idea is to train everyday.
 ### While training I will be wide open to different things where to improve as well places to develop a clear training reproducible step.
 
 ## What we're going to build?
@@ -12,7 +11,7 @@ We are going to build a simple App to consume a list of Headlines and show it on
 We are going to start with the view.
 Our view will be based on a TableView and it should display:
 
-- A Feed of Worldiwe Top News.
+- A Feed of Worldwide Top News.
 - Every news should have it's image.
 
 ## UX goals for the News UI experience
@@ -38,8 +37,8 @@ Our view will be based on a TableView and it should display:
     - [✅] Load when image view is visible (on screen)
     - [✅] Cancel when image view is out of screen
     - [✅] Show a loading indicator while loading image (shimmer)
-    - [] Option to retry on image download error  
-    - [] Preload when image view is near visible
+    - [✅] Option to retry on image download error  
+    - [✅] Preload when image view is near visible
  
  ## Networking Layer
  
