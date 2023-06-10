@@ -224,6 +224,24 @@ class Deliberate_1Tests: XCTestCase {
         XCTAssertEqual(loader.loadedImagesURLs, [itemWithImage0.imageURL, itemWithImage1.imageURL, itemWithImage0.imageURL, itemWithImage1.imageURL])
     }
     
+    func test_loadImage_preloadImagesWhenNearVisible() {
+        let itemWithImage0 = makeItem(title: "some title a", description: "a description", imageURL: URL(string: "http://www.a-url.com")!)
+        let itemWithImage1 = makeItem(title: "some title b", description: "b description", imageURL: URL(string: "http://www.b-url.com")!)
+
+        let (sut, loader) = makeSUT()
+
+        sut.loadViewIfNeeded()
+        loader.completeFeedLoading(with: [itemWithImage0, itemWithImage1])
+        
+        XCTAssertEqual(loader.loadedImagesURLs, [])
+        
+        sut.simulateFeedImageViewNearVisible(at: 0)
+        XCTAssertEqual(loader.loadedImagesURLs, [itemWithImage0.imageURL])
+        
+        sut.simulateFeedImageViewNearVisible(at: 1)
+        XCTAssertEqual(loader.loadedImagesURLs, [itemWithImage0.imageURL, itemWithImage1.imageURL])
+    }
+    
     
     // MARK: - Helpers
     

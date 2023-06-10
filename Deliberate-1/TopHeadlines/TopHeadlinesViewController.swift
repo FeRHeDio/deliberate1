@@ -7,7 +7,7 @@
 
 import UIKit
 
-final public class TopHeadlinesViewController: UITableViewController {
+final public class TopHeadlinesViewController: UITableViewController, UITableViewDataSourcePrefetching {
     private var articleModel = [Article]()
     private var newsFeedLoader: NewsLoader?
     private var imageLoader: FeedImageLoader?
@@ -22,6 +22,7 @@ final public class TopHeadlinesViewController: UITableViewController {
     public override func viewDidLoad() {
         refreshControl = UIRefreshControl()
         refreshControl?.addTarget(self, action: #selector(load), for: .valueChanged)
+        tableView.prefetchDataSource = self
         load()
     }
     
@@ -72,5 +73,12 @@ final public class TopHeadlinesViewController: UITableViewController {
     public override func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         tasks[indexPath]?.cancel()
         tasks[indexPath] = nil
+    }
+    
+    public func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+        indexPaths.forEach { indexPath in
+            let cellModel = articleModel[indexPath.row]
+            _ = imageLoader?.loadImage(from: cellModel.imageURL) { _ in }
+        }
     }
 }
