@@ -39,8 +39,11 @@ Our view will be based on a TableView and it should display:
     - [✅] Show a loading indicator while loading image (shimmer)
     - [✅] Option to retry on image download error  
     - [✅] Preload when image view is near visible
- 
+    - [] Connect Storyboard with the code.
+     
  ## Networking Layer
+ 
+ - [] Spike some implmentation to see stuff working.
  
  ## Json Payload details
     - source
