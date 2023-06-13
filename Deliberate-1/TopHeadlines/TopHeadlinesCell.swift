@@ -22,10 +22,8 @@ class TopHeadlinesCell: UITableViewCell {
         return button
     }()
     
-    
     @objc func retryButtonTapped() {
         onRetry?()
     }
-    
 }
 
