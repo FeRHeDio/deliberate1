@@ -12,26 +12,24 @@ We are going to start with the view.
 Our view will be based on a TableView and it should display:
 
 - A Feed of Worldwide Top News.
-- Every news should have it's image.
+- Every news article should have it's image.
 
 ## UX goals for the News UI experience
 
-- [✅] Load Top Headlines automatically when view is presented
+    - [✅] Load Top Headlines automatically when view is presented
 
 ---
-- Create the system under test.
-- Create the spy.
-- Create the Protocol boundary for the loader.
-- Create sut private extension for DSL's reliable helpers to protect the tests.
-- Create memory leak tracker.
+    - Create the system under test.
+    - Create the spy.
+    - Create the Protocol boundary for the loader.
+    - Create sut private extension for DSL's reliable helpers to protect the tests.
+    - Create memory leak tracker.
 ---
 
-- [✅] Allow customer to manually reload feed (pull to refresh)
-    - Create the pull to refresh mechanism.
-
-- [✅] Show a  loading indicator while loading feed.
-
-- [✅] Render all loaded feed items (title, description, publishedAt, content & source name)
+    - [✅] Allow customer to manually reload feed (pull to refresh)
+        - Create the pull to refresh mechanism.
+    - [✅] Show a  loading indicator while loading feed.
+    - [✅] Render all loaded feed items (title, description, publishedAt, content & source name)
 
 - [] Image loading experience
     - [✅] Load when image view is visible (on screen)
@@ -39,11 +37,13 @@ Our view will be based on a TableView and it should display:
     - [✅] Show a loading indicator while loading image (shimmer)
     - [✅] Option to retry on image download error  
     - [✅] Preload when image view is near visible
-    - [✅] Connect Storyboard with the code.
+    - [✅] Load Storyboard with the code.
+    - [ ] Make UI Connections to Storyboard.
      
  ## Networking Layer
  
- - [] Spike some implmentation to see stuff working.
+    - [] Spike some implmentation to see stuff working.
+    - [] Get rid of the example code and TDD the Networking Layer.
  
  ## Json Payload details
     - source
