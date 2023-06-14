@@ -39,7 +39,7 @@ Our view will be based on a TableView and it should display:
     - [✅] Show a loading indicator while loading image (shimmer)
     - [✅] Option to retry on image download error  
     - [✅] Preload when image view is near visible
-    - [] Connect Storyboard with the code.
+    - [✅] Connect Storyboard with the code.
      
  ## Networking Layer
  
